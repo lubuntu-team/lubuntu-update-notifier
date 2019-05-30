@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec=/usr/lib/lubuntu-update-notifier/upg-notifier.sh
+NoDisplay=true
+Name=upgNotifier
+Icon=system-software-update
+Type=Application
+Version=0.1

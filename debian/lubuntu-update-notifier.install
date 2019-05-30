@@ -1,0 +1,5 @@
+data/upg-notifier-autostart.desktop etc/xdg/autostart
+#debian/lubuntu-update-notifier/usr/lib/python3*/*-packages/lubuntu-update-notifier/*.py
+#debian/lubuntu-update-notifier/usr/bin/upg-notifier.sh
+#debian/tmp/usr/share/applications/upg-notifier-autostart.desktop
+#debian/lubuntu-update-notifier/etc/xdg/autostart/upg-notifier-autostart.desktop
