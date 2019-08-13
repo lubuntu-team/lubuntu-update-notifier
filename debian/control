@@ -1,19 +1,26 @@
 Source: lubuntu-update-notifier
 Section: admin
 Priority: optional
-Maintainer: Hans P. Möller <hmoller@lubuntu.me>
+Maintainer: Hans P Möller <hmollercl@lubuntu.me>
 Build-Depends: debhelper (>=12~),
                dh-python,
-               python3-apt,
                python3-all,
-               python3-setuptools,
-Standards-Version: 4.3.0
+               python3-apt,
+               python3-setuptools
+Standards-Version: 4.4.0
 
 Package: lubuntu-update-notifier
 Architecture: all
-Depends: ${shlibs:Depends}, ${python3:Depends}, ${misc:Depends},
- update-notifier-common, aptdaemon, debconf-kde-helper, python3-pyqt5,
- python3, python3-aptdaemon (>= 0.6.20ubuntu16)
+Depends: aptdaemon,
+         debconf-kde-helper,
+         lxqt-sudo,
+         python3,
+         python3-aptdaemon (>= 0.6.20ubuntu16),
+         python3-pyqt5,
+         update-notifier-common,
+         ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
 Description: Daemon which notifies about package updates
  Opens a window when package updates are available.
- It also allows to do a full upgrade, aka dist-upgrade.
+ It also allows one sudto do a full upgrade, aka dist-upgrade.

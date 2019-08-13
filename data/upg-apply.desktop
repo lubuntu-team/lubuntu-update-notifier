@@ -1,0 +1,9 @@
+[Desktop Entry]
+Exec=lxqt-sudo upgrader --cache-update --full-upgrade
+Name=Apply Full Upgrade
+Comment=Search and Apply Full Upgrade
+Icon=system-software-update
+Type=Application
+Version=0.1
+Categories=System;Settings;
+Terminal=false
