@@ -337,13 +337,14 @@ def main(args, options):
 
 if __name__ == "__main__":
     # check arguments
-    parser = OptionParser()
-    parser.add_option("",
+    parser = OptionParser(usage='%prog [options]',
+                          version='0.1',)
+    parser.add_option("-c",
                       "--cache-update",
                       action="store_true",
                       dest="cacheUpdate",
                       help="Update Cache Before Upgrade")
-    parser.add_option("",
+    parser.add_option("-f",
                       "--full-upgrade",
                       action="store_true",
                       dest="fullUpgrade",
