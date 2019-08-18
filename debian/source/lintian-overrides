@@ -1,0 +1,2 @@
+# lxqt-sudo is put as dependency
+desktop-command-not-in-package usr/share/applications/upg-apply.desktop lxqt-sudo
