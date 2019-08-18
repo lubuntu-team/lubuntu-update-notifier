@@ -21,6 +21,10 @@ Depends: aptdaemon,
          ${misc:Depends},
          ${python3:Depends},
          ${shlibs:Depends}
-Description: Daemon which notifies about package updates
- Opens a window when package updates are available.
- It also allows one sudto do a full upgrade, aka dist-upgrade.
+Description: Package includes a bash daemon (lubuntu-upg-notifier.sh) which
+ checks if there are updates available. If there are it opnes notifier.py which
+ is a window that notifies about package updates available. If you decide to
+ upgrade a full upgrade (not safe-upgrade) with the upgrader binary.
+ Upgrader can also be run alone, it can be chosen to run cache update before and
+ if a safe or full upgrade will be done. There is also a .desktop to call
+ upgrader with cache update and a full upgrade.

@@ -8,8 +8,8 @@ setup(
     name="lubuntu-update-notifier",
     version="0.1",
     packages=['lubuntu-update-notifier'],
-    scripts=['upgrader'],
+    scripts=['lubuntu-upgrader'],
     data_files=[
                   ('lib/lubuntu-update-notifier/',
-                   ['upg-notifier.sh', 'notifier.py'])]
+                   ['lubuntu-upg-notifier.sh', 'lubuntu-notifier.py'])]
 )

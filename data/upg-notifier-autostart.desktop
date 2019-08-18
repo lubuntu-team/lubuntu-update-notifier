@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=/usr/lib/lubuntu-update-notifier/upg-notifier.sh
+Exec=/usr/lib/lubuntu-update-notifier/lubuntu-upg-notifier.sh
 NoDisplay=true
 Name=upgNotifier
 Icon=system-software-update
