@@ -47,7 +47,9 @@ class Dialog(QWidget):
         self.center()
 
         if self.upgrades > 0:
-            text = "There are upgrades available. Do you want to do a system upgrade?\nThis will mean packages could be upgraded, installed, or removed."
+            text = "There are upgrades available. Do you want to do a system"
+            text += " upgrade?\nThis will mean packages could be upgraded,"
+            text += " installed, or removed."
 
         if reboot_required:
             if text == "":
