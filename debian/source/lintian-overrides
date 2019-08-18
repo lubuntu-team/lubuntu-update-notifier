@@ -1,2 +1,6 @@
-# lxqt-sudo is put as dependency
-desktop-command-not-in-package usr/share/applications/upg-apply.desktop lxqt-sudo
+# lxqt-sudo is used to run lubuntu-upgrader with admin privileges
+# while lxqt-sudo isn't provided in this package we declare a dependency on it.
+lubuntu-update-notifier source: desktop-command-not-in-package
+
+# Whishlist
+lubuntu-update-notifier source: testsuite-autopkgtest-missing
