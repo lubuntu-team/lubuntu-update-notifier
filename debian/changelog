@@ -1,4 +1,4 @@
-lubuntu-update-notifier (0.1) UNRELEASED; urgency=medium
+lubuntu-update-notifier (0.1) eoan; urgency=medium
 
   * Initial release. LP: #1840829
 
