@@ -240,8 +240,8 @@ class DialogUpg(QWidget):
         self.errors.append("Error Detail: " + error_details)
         self.plainTextEdit.setVisible(True)
         self.closeBtn.setEnabled(True)
-        print "ECode: " + str(error_code) + "\n"
-        print "EDetail: " + error_details + "\n"
+        print("ECode: " + str(error_code) + "\n")
+        print("EDetail: " + error_details + "\n")
 
     def upgrade_cancellable_changed(self, transaction, cancellable):
         '''when upgrade cancellable toogle'''
