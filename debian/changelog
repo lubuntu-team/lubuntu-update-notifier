@@ -1,5 +1,6 @@
 lubuntu-update-notifier (0.1) eoan; urgency=medium
 
+  [ Hans P Möller ]
   * Initial release. LP: #1840829
 
- -- Hans P Möller <hmollercl@lubuntu.me>  Tue, 28 May 2019 16:42:14 -0400
+ -- Hans P. Möller <hmoller@gmail.com>  Thu, 22 Aug 2019 22:29:36 -0400

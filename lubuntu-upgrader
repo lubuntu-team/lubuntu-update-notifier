@@ -1,15 +1,35 @@
 #!/usr/bin/python3
+# coding=utf-8
+
+# Copyright (C) 2019 Hans P. Möller <hmollercl@lubuntu.me>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 # deppend on
 # aptdaemon
 # debconf-kde-helper
 import sys
 import os
+from pathlib import Path
+# from optparse import OptionParser
+from argparse import ArgumentParser
 from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QPushButton,
                              QHBoxLayout, QVBoxLayout, QProgressBar,
                              QPlainTextEdit, QMessageBox)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QTextCursor, QPalette
-from optparse import OptionParser
+
 from aptdaemon import client
 from aptdaemon.errors import NotAuthorizedError, TransactionFailed
 from aptdaemon.enums import (EXIT_SUCCESS,
@@ -18,10 +38,11 @@ from aptdaemon.enums import (EXIT_SUCCESS,
                              get_error_description_from_enum,
                              get_error_string_from_enum,
                              get_status_string_from_enum)
-from pathlib import Path
+
 
 
 class DialogUpg(QWidget):
+    '''UI'''
     def __init__(self, options=None):
         QWidget.__init__(self)
 
@@ -57,6 +78,7 @@ class DialogUpg(QWidget):
                 self.upgrade()
 
     def initUI(self):
+        '''initialize UI'''
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignHCenter)
         self.closeBtn = QPushButton("Close")
@@ -87,6 +109,7 @@ class DialogUpg(QWidget):
         self.center()
 
     def center(self):
+        '''centers UI'''
         frameGm = self.frameGeometry()
         screen = QApplication.desktop().screenNumber(
             QApplication.desktop().cursor().pos())
@@ -95,16 +118,19 @@ class DialogUpg(QWidget):
         self.move(frameGm.topLeft())
 
     def upgrade_progress(self, transaction, progress):
+        '''upgrade progressbar during upgrade'''
         self.progressBar.setVisible(True)
         self.progressBar.setValue(progress)
 
     def update_progress(self, transaction, progress):
+        '''upgrade progressbar during update'''
         self.progressBar.setVisible(True)
         self.progressBar.setValue(progress)
         self.label.setText("Updating cache...")
 
     def update_progress_download(self, transaction, uri, status, short_desc,
                                  total_size, current_size, msg):
+        '''print update info'''
         self.plainTextEdit.setVisible(True)
         if self.old_short_desc == short_desc:
             # if it's the same file we update the line, don't append new line
@@ -127,6 +153,7 @@ class DialogUpg(QWidget):
 
     def upgrade_progress_download(self, transaction, uri, status, short_desc,
                                   total_size, current_size, msg):
+        '''print upgrade info'''
         self.plainTextEdit.setVisible(True)
         if self.status == "status-downloading":
             # TODO it prints the last line after installation is complete.
@@ -153,6 +180,7 @@ class DialogUpg(QWidget):
 
     def update_progress_detail(self, transaction, current_items, total_items,
                                current_bytes, total_bytes, current_cps, eta):
+        '''print update detail info'''
         if total_items > 0:
             self.plainTextEdit.setVisible(True)
             if self.detailText != "Fetching " + str(
@@ -165,6 +193,7 @@ class DialogUpg(QWidget):
 
     def upgrade_progress_detail(self, transaction, current_items, total_items,
                                 current_bytes, total_bytes, current_cps, eta):
+        '''print upgrade detail info'''
         if total_items > 0:
             self.plainTextEdit.setVisible(True)
             if self.detailText != "Downloaded " + str(
@@ -176,6 +205,7 @@ class DialogUpg(QWidget):
                 self.label.setText(self.detailText + "\n" + self.downloadText)
 
     def upgrade_finish(self, transaction, exit_state):
+        '''when upgrade finish'''
         if exit_state == EXIT_FAILED:
             error_string = get_error_string_from_enum(transaction.error.code)
             error_desc = get_error_description_from_enum(
@@ -188,7 +218,7 @@ class DialogUpg(QWidget):
             text = text + "\n" + "Restart required"
         self.progressBar.setVisible(False)
 
-        if(len(self.errors) > 0):
+        if len(self.errors) > 0:
             text = text + "\n With some Errors"
             self.plainTextEdit.appendPlainText("Error Resume:\n")
             for error in self.errors:
@@ -204,18 +234,21 @@ class DialogUpg(QWidget):
         self.plainTextEdit.setEnabled(True)
 
     def upgrade_error(self, transaction, error_code, error_details):
+        '''if error during upgrade'''
         self.plainTextEdit.setVisible(True)
         self.errors.append("Eror Code: " + str(error_code))
         self.errors.append("Error Detail: " + error_details)
         self.plainTextEdit.setVisible(True)
         self.closeBtn.setEnabled(True)
-        print("ECode: " + str(error_code) + "\n")
-        print("EDetail: " + error_details + "\n")
+        print "ECode: " + str(error_code) + "\n"
+        print "EDetail: " + error_details + "\n"
 
     def upgrade_cancellable_changed(self, transaction, cancellable):
+        '''when upgrade cancellable toogle'''
         self.closeBtn.setEnabled(cancellable)
 
     def update_cache(self):
+        '''runs cache update'''
         self.closeBtn.setVisible(False)
         try:
             self.trans1.connect('finished', self.update_finish)
@@ -237,6 +270,7 @@ class DialogUpg(QWidget):
                   + "{}".format(e))
 
     def update_finish(self, transaction, exit_state):
+        '''when update finish'''
         self.label.setText("Update Cache Finished")
         if exit_state == EXIT_FAILED:
             error_string = get_error_string_from_enum(transaction.error.code)
@@ -252,12 +286,14 @@ class DialogUpg(QWidget):
         self.upgrade()
 
     def status_changed(self, transaction, status):
+        '''print info when status changed'''
         self.status = status
         self.label.setText("Status:" + get_status_string_from_enum(status))
         print("Status:" + get_status_string_from_enum(status) + " " + status
               + "\n")
 
     def status_details_changed(self, transaction, details):
+        '''print status detail info'''
         self.plainTextEdit.setVisible(True)
         if self.details != details:
             self.details = details
@@ -274,9 +310,10 @@ class DialogUpg(QWidget):
                 self.label.setText(self.detailText + "\n" + details)
                 # if is downloading put the "Downloaded x of y" text
             # print("PTY:" + str(self.slave))
-            print("Status Details:" + details)
+            print "Status Details:" + details
 
     def upgrade(self):
+        '''runs upgrade'''
         try:
             self.trans2.connect('progress-changed', self.upgrade_progress)
             self.trans2.connect('cancellable-changed',
@@ -309,10 +346,12 @@ class DialogUpg(QWidget):
                   + "{}".format(e))
 
     def call_reject(self):
+        '''when close button is pushed, quit'''
         app.quit()
 
 
 class App(QApplication):
+    '''app'''
     def __init__(self, options, *args):
         QApplication.__init__(self, *args)
         self.dialog = DialogUpg(options)
@@ -320,6 +359,7 @@ class App(QApplication):
 
 
 def main(args, options):
+    '''main'''
     global app
     app = App(options, args)
     app.setWindowIcon(QIcon.fromTheme("system-software-update"))
@@ -337,19 +377,21 @@ def main(args, options):
 
 if __name__ == "__main__":
     # check arguments
-    parser = OptionParser(usage='%prog [options]',
-                          version='0.1',)
-    parser.add_option("-c",
-                      "--cache-update",
-                      action="store_true",
-                      dest="cacheUpdate",
-                      help="Update Cache Before Upgrade")
-    parser.add_option("-f",
-                      "--full-upgrade",
-                      action="store_true",
-                      dest="fullUpgrade",
-                      help="Full upgrade same as dist-upgrade")
-    (options, args) = parser.parse_args()
+    parser = ArgumentParser()
+    parser.add_argument("-c",
+                        "--cache-update",
+                        action="store_true",
+                        dest="cacheUpdate",
+                        help="Update Cache Before Upgrade")
+    parser.add_argument("-f",
+                        "--full-upgrade",
+                        action="store_true",
+                        dest="fullUpgrade",
+                        help="Full upgrade same as dist-upgrade")
+    parser.add_argument('--version',
+                        action='version',
+                        version='%(prog)s 0.1')
+    options = parser.parse_args()
 
     # run it
     main(sys.argv, options)
