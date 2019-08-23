@@ -310,7 +310,7 @@ class DialogUpg(QWidget):
                 self.label.setText(self.detailText + "\n" + details)
                 # if is downloading put the "Downloaded x of y" text
             # print("PTY:" + str(self.slave))
-            print "Status Details:" + details
+            print("Status Details:" + details)
 
     def upgrade(self):
         '''runs upgrade'''
