@@ -19,7 +19,6 @@
 while true;
     do
         OUT=`/usr/lib/update-notifier/apt-check 2>&1`
-        #echo $OUT
         oldIFS=$IFS
         IFS=';'
         j=0
@@ -34,5 +33,5 @@ while true;
         done
         IFS=$oldIFS
         /usr/lib/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -p /usr/bin/lubuntu-upgrader
-        sleep 3600
+        sleep 86400
 done;
