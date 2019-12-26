@@ -21,10 +21,14 @@ Depends: aptdaemon,
          ${misc:Depends},
          ${python3:Depends},
          ${shlibs:Depends}
-Description: Package includes a bash daemon (lubuntu-upg-notifier.sh) which
- checks if there are updates available. If there are it opnes notifier.py which
+Description: Notifies when upgrades are available, has a very simple upgrader.
+ .
+ Package includes a bash daemon (lubuntu-upg-notifier.sh) which
+ checks if there are updates available. If there are it opens notifier.py which
  is a window that notifies about package updates available. If you decide to
- upgrade a full upgrade (not safe-upgrade) with the upgrader binary.
+ upgrade a full upgrade (not safe-upgrade) with the upgrader binary will take
+ place.
+ .
  Upgrader can also be run alone, it can be chosen to run cache update before and
  if a safe or full upgrade will be done. There is also a .desktop to call
  upgrader with cache update and a full upgrade.

@@ -1,3 +1,10 @@
+lubuntu-update-notifier (0.2) focal; urgency=medium
+
+  * Change sleep time for notifier from 1 hour to 24.
+  * Added short description in control.
+
+ -- Hans P Möller <hmollercl@lubuntu.me>  Thu, 26 Dec 2019 17:29:54 -0300
+
 lubuntu-update-notifier (0.1) focal; urgency=medium
 
   * Initial release. LP: #1840829
