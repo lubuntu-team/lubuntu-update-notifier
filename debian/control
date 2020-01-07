@@ -21,7 +21,7 @@ Depends: aptdaemon,
          ${misc:Depends},
          ${python3:Depends},
          ${shlibs:Depends}
-Description: Notifies when upgrades are available, has a very simple upgrader.
+Description: Qt notifier for available upgrades, has a very simple upgrader
  Package includes a bash daemon (lubuntu-upg-notifier.sh) which
  checks if there are updates available. If there are it opens notifier.py which
  is a window that notifies about package updates available. If you decide to
