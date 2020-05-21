@@ -1,4 +1,4 @@
-lubuntu-update-notifier (0.2) focal; urgency=medium
+lubuntu-update-notifier (0.2) groovy; urgency=medium
 
   [ Hans P Möller ]
   * Change sleep time for notifier from 1 hour to 24.
@@ -8,7 +8,7 @@ lubuntu-update-notifier (0.2) focal; urgency=medium
   * Drop debian/compat switch to debhlper-compat=13, no changes needed.
   * Bump standards-version to 4.5.0, no changes needed.
 
- -- Hans P Möller <hmollercl@lubuntu.me>  Tue, 07 Jan 2020 00:49:16 -0300
+ -- Dan Simmons <kc2bez@lubuntu.me>  Thu, 21 May 2020 19:49:57 -0400
 
 lubuntu-update-notifier (0.1) focal; urgency=medium
 
