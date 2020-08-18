@@ -21,23 +21,33 @@
 import sys
 import subprocess
 from pathlib import Path
-# from optparse import OptionParser
+import apt_pkg
 from argparse import ArgumentParser
 
 from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QPushButton,
-                             QHBoxLayout, QVBoxLayout)
+                             QHBoxLayout, QVBoxLayout, QTreeWidget,
+                             QTreeWidgetItem)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
 
 class Dialog(QWidget):
     ''' UI '''
+
     def __init__(self, upgrades, security_upgrades, reboot_required, upg_path):
         QWidget.__init__(self)
         self.upgrades = upgrades
         self.security_upgrades = security_upgrades
         self.upg_path = upg_path
         self.reboot_required = reboot_required
+
+        apt_pkg.init()
+        try:
+            self.cache = apt_pkg.Cache()
+        except SystemError as e:
+            sys.stderr.write("Error: Opening the cache (%s)" % e)
+            sys.exit(-1)
+        self.depcache = apt_pkg.DepCache(self.cache)
 
         self.initUI()
         self.upgradeBtn.clicked.connect(self.call_upgrade)
@@ -47,6 +57,12 @@ class Dialog(QWidget):
         ''' UI initialization '''
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignHCenter)
+
+        self.tw = QTreeWidget()
+        self.tw.setColumnCount(1)
+        self.tw.setHeaderLabels(['Affected Packages'])
+        self.tw.setHeaderHidden(True)
+
         self.upgradeBtn = QPushButton("Upgrade")
         self.closeBtn = QPushButton("Close")
         text = ""
@@ -59,6 +75,7 @@ class Dialog(QWidget):
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.label)
+        vbox.addWidget(self.tw)
         vbox.addLayout(hbox)
 
         if self.upg_path is None:
@@ -70,9 +87,42 @@ class Dialog(QWidget):
         self.center()
 
         if self.upgrades > 0:
+            self.depcache.upgrade(True)  # True for non safe.
+            pkg_install = list()
+            pkg_upgrade = list()
+            pkg_delete = list()
+            for p in self.cache.packages:
+                if self.depcache.marked_delete(p):
+                    pkg_delete.append(p.name)
+                elif self.depcache.marked_install(p):
+                    pkg_install.append(p.name)
+                elif self.depcache.marked_upgrade(p):
+                    pkg_upgrade.append(p.name)
             text = "There are upgrades available. Do you want to do a system"
             text += " upgrade?\nThis will mean packages could be upgraded,"
             text += " installed, or removed."
+
+            if len(pkg_delete) > 0:
+                toDelete = QTreeWidgetItem(['Remove'])
+                for p in pkg_delete:
+                    td_child = QTreeWidgetItem([p])
+                    toDelete.addChild(td_child)
+                toDelete.setIcon(0, QIcon.fromTheme("edit-delete"))
+                self.tw.addTopLevelItem(toDelete)
+            if len(pkg_install) > 0:
+                toInstall = QTreeWidgetItem(['Install'])
+                for p in pkg_install:
+                    td_child = QTreeWidgetItem([p])
+                    toInstall.addChild(td_child)
+                toInstall.setIcon(0, QIcon.fromTheme("system-software-install"))
+                self.tw.addTopLevelItem(toInstall)
+            if len(pkg_upgrade) > 0:
+                toUpgrade = QTreeWidgetItem(['Upgrade'])
+                for p in pkg_upgrade:
+                    td_child = QTreeWidgetItem([p])
+                    toUpgrade.addChild(td_child)
+                toUpgrade.setIcon(0, QIcon.fromTheme("system-software-update"))
+                self.tw.addTopLevelItem(toUpgrade)
 
         if self.reboot_required:
             if text == "":
