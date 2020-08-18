@@ -12,6 +12,7 @@ Standards-Version: 4.5.0
 Package: lubuntu-update-notifier
 Architecture: all
 Depends: aptdaemon,
+         apt_pkg,
          debconf-kde-helper,
          lxqt-sudo,
          python3,
