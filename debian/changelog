@@ -8,6 +8,11 @@ lubuntu-update-notifier (0.2) groovy; urgency=medium
   * Drop debian/compat switch to debhlper-compat=13, no changes needed.
   * Bump standards-version to 4.5.0, no changes needed.
 
+  [ Hans P Möller ]
+  * Added affected packages info.
+  * Move executables from /usr/lib to /usr/libexec
+  * Added "Rules-Requires-Root: no" to debian/control.
+
  -- Dan Simmons <kc2bez@lubuntu.me>  Thu, 21 May 2020 19:49:57 -0400
 
 lubuntu-update-notifier (0.1) focal; urgency=medium
