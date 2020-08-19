@@ -23,7 +23,7 @@ setup(
     version="0.1",
     packages=['lubuntu-update-notifier'],
     scripts=['lubuntu-upgrader'],
-    data_files=[
-                  ('lib/lubuntu-update-notifier/',
-                   ['lubuntu-upg-notifier.sh', 'lubuntu-notifier.py'])]
+    data_files=[('libexec/lubuntu-update-notifier/',
+                 ['lubuntu-upg-notifier.sh', 'lubuntu-notifier.py']),
+                ('share/applications', ['data/upg-apply.desktop'])]
 )
