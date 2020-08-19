@@ -1,3 +1,11 @@
+lubuntu-update-notifier (0.3) groovy; urgency=medium
+
+  * Added affected packages info.
+  * Move executables from /usr/lib to /usr/libexec.
+  * Added "Rules-Requires-Root: no" to debian/control.
+
+ -- Hans P Möller <hmollercl@lubuntu.me>  Wed, 19 Aug 2020 10:23:52 -0400
+
 lubuntu-update-notifier (0.2) groovy; urgency=medium
 
   [ Hans P Möller ]
