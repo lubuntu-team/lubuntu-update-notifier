@@ -32,6 +32,6 @@ while true;
              j=`expr $j + 1`
         done
         IFS=$oldIFS
-        /usr/lib/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -p /usr/bin/lubuntu-upgrader
+        /usr/libexec/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -p /usr/bin/lubuntu-upgrader
         sleep 86400
 done;
