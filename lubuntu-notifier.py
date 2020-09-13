@@ -93,36 +93,40 @@ class Dialog(QWidget):
             pkg_delete = list()
             for p in self.cache.packages:
                 if self.depcache.marked_delete(p):
-                    pkg_delete.append(p.name)
+                    pkg_delete.append(p)
                 elif self.depcache.marked_install(p):
-                    pkg_install.append(p.name)
+                    pkg_install.append([p, self.depcache.get_candidate_ver(p)])
                 elif self.depcache.marked_upgrade(p):
-                    pkg_upgrade.append(p.name)
-            text = _("There are upgrades available. Do you want to do a system "
-                     "upgrade?")
+                    pkg_upgrade.append([p, self.depcache.get_candidate_ver(p)])
+            text = _("There are upgrades available. Do you want to do a system"
+                     " upgrade?")
             text += "\n"
-            text += _("This will mean packages could be upgraded, installed, or "
-                    "removed.")
+            text += _("This will mean packages could be upgraded, installed or"
+                      " removed.")
 
             if len(pkg_delete) > 0:
                 toDelete = QTreeWidgetItem([_('Remove')])
                 for p in pkg_delete:
-                    td_child = QTreeWidgetItem([p])
+                    td_child = QTreeWidgetItem(p.name)
                     toDelete.addChild(td_child)
                 toDelete.setIcon(0, QIcon.fromTheme("edit-delete"))
                 self.tw.addTopLevelItem(toDelete)
             if len(pkg_install) > 0:
                 toInstall = QTreeWidgetItem([_('Install')])
                 for p in pkg_install:
-                    td_child = QTreeWidgetItem([p])
+                    td_child = QTreeWidgetItem([p[0].name])
                     toInstall.addChild(td_child)
-                toInstall.setIcon(0, QIcon.fromTheme("system-software-install"))
+                    td_child.addChild(QTreeWidgetItem([p[1].ver_str]))
+                toInstall.setIcon(0,
+                                  QIcon.fromTheme("system-software-install"))
                 self.tw.addTopLevelItem(toInstall)
             if len(pkg_upgrade) > 0:
                 toUpgrade = QTreeWidgetItem([_('Upgrade')])
                 for p in pkg_upgrade:
-                    td_child = QTreeWidgetItem([p])
+                    td_child = QTreeWidgetItem([p[0].name])
                     toUpgrade.addChild(td_child)
+                    td_child.addChild(QTreeWidgetItem(
+                        [p[0].current_ver.ver_str + "  ->  " + p[1].ver_str]))
                 toUpgrade.setIcon(0, QIcon.fromTheme("system-software-update"))
                 self.tw.addTopLevelItem(toUpgrade)
 
@@ -150,7 +154,8 @@ class Dialog(QWidget):
         app.quit()
 
     def call_upgrade(self, btnClicked):
-        if(self.buttonBox.buttonRole(btnClicked) == QDialogButtonBox.ApplyRole):
+        if(self.buttonBox.buttonRole(btnClicked) ==
+           QDialogButtonBox.ApplyRole):
             ''' starts upgrade process '''
             self.label.setText(_("Upgrading..."))
             # TODO maybe open another thread so notifier won't freeze
@@ -182,6 +187,7 @@ class Dialog(QWidget):
 
 class App(QApplication):
     '''application'''
+
     def __init__(self, upgrades, security_upgrades, reboot_required, upg_path,
                  *args):
         QApplication.__init__(self, *args)
@@ -199,8 +205,8 @@ def main(args, upgrades, security_upgrades, reboot_required, upg_path):
 
 
 if __name__ == "__main__":
-    localesApp ="lubuntu-update-notifier"
-    localesDir ="/usr/share/locale"
+    localesApp = "lubuntu-update-notifier"
+    localesDir = "/usr/share/locale"
     gettext.bindtextdomain(localesApp, localesDir)
     gettext.textdomain(localesApp)
     _ = gettext.gettext
