@@ -1,0 +1,2 @@
+xgettext lubuntu-upgrader lubuntu-notifier.py --language=Python
+mv messages.po po/lubuntu-update-notifier.pot

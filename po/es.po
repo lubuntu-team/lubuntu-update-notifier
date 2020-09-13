@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-12 13:43-0300\n"
+"PO-Revision-Date: 2020-09-12 13:49-0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+
+#: lubuntu-upgrader:129
+msgid "Updating cache..."
+msgstr "Actualizando cache..."
+
+#: lubuntu-upgrader:186 lubuntu-upgrader:189
+msgid "Fetching"
+msgstr "Atrayendo"
+
+#: lubuntu-upgrader:187 lubuntu-upgrader:189 lubuntu-upgrader:200
+#: lubuntu-upgrader:203
+msgid "of"
+msgstr "de"
+
+#: lubuntu-upgrader:199 lubuntu-upgrader:202
+msgid "Downloaded"
+msgstr "Descargado"
+
+#: lubuntu-upgrader:214 lubuntu-notifier.py:170
+msgid "Upgrade finished"
+msgstr "Actualización completada"
+
+#: lubuntu-upgrader:218 lubuntu-notifier.py:132 lubuntu-notifier.py:136
+#: lubuntu-notifier.py:174
+msgid "Reboot required"
+msgstr "Requiere reinicio"
+
+#: lubuntu-upgrader:222
+msgid "With some Errors"
+msgstr "Con algunos Errores"
+
+#: lubuntu-upgrader:223
+msgid "Error Resume:"
+msgstr "Resumen de Errores:"
+
+#: lubuntu-upgrader:274
+msgid "Update Cache Finished"
+msgstr "Actualización de Cache Terminada"
+
+#: lubuntu-upgrader:369
+msgid ""
+"Please run this software with administrative rights.To do so, run this "
+"program with lxqt-sudo."
+msgstr ""
+"Por favor corre este software como administrador. Para hacerlo "
+"ejecútarlo con lxqt-sudo."
+
+#: lubuntu-upgrader:391
+msgid "Update Cache Before Upgrade"
+msgstr "Actualiza el Cache antes de la Actualización"
+
+#: lubuntu-upgrader:396
+msgid "Full upgrade same as dist-upgrade"
+msgstr "\"Full upgrade\" lo mismo que \"dist-upgrade\""
+
+#: lubuntu-notifier.py:64
+msgid "Affected Packages"
+msgstr "Paquetes adectados"
+
+#: lubuntu-notifier.py:102
+msgid "There are upgrades available. Do you want to do a system upgrade?"
+msgstr ""
+"Hay actualizaciones disponibles ¿Quiere hacer una actualización del sistema?"
+
+#: lubuntu-notifier.py:105
+msgid "This will mean packages could be upgraded, installed, or removed."
+msgstr "Esto implica que paquetes pueden actualizarse, instalarse o removerse"
+
+#: lubuntu-notifier.py:109
+msgid "Remove"
+msgstr "Quitar"
+
+#: lubuntu-notifier.py:116
+msgid "Install"
+msgstr "Instalar"
+
+#: lubuntu-notifier.py:123
+msgid "Upgrade"
+msgstr "Actualizar"
+
+#: lubuntu-notifier.py:155
+msgid "Upgrading..."
+msgstr "Actualizando..."
+
+#: lubuntu-notifier.py:212
+msgid "Define software/app to open for upgrade"
+msgstr "Define el software o app para actualizar"
+
+#: lubuntu-notifier.py:217
+msgid "How many upgrades are available"
+msgstr "Cuántas actualizaciones hay disponibles"
+
+#: lubuntu-notifier.py:222
+msgid "How many security upgrades are available"
+msgstr "Cuántas actualizaciones de seguridad hay disponibles"

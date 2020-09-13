@@ -22,7 +22,7 @@
 import sys
 import os
 from pathlib import Path
-# from optparse import OptionParser
+import gettext
 from argparse import ArgumentParser
 from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QPushButton,
                              QHBoxLayout, QVBoxLayout, QProgressBar,
@@ -126,7 +126,7 @@ class DialogUpg(QWidget):
         '''upgrade progressbar during update'''
         self.progressBar.setVisible(True)
         self.progressBar.setValue(progress)
-        self.label.setText("Updating cache...")
+        self.label.setText(_("Updating cache..."))
 
     def update_progress_download(self, transaction, uri, status, short_desc,
                                  total_size, current_size, msg):
@@ -183,11 +183,11 @@ class DialogUpg(QWidget):
         '''print update detail info'''
         if total_items > 0:
             self.plainTextEdit.setVisible(True)
-            if self.detailText != "Fetching " + str(
-                    current_items) + " of " + str(total_items):
+            if self.detailText != _("Fetching") + str(
+                    current_items) + " " + _("of") + " " + str(total_items):
                 self.detailText = (
-                    "Fetching " + str(current_items) + " of "
-                    + str(total_items)
+                    _("Fetching") + " " + str(current_items) + " " + _("of") +
+                    " " + str(total_items)
                 )
                 self.label.setText(self.detailText + "\n" + self.downloadText)
 
@@ -196,11 +196,11 @@ class DialogUpg(QWidget):
         '''print upgrade detail info'''
         if total_items > 0:
             self.plainTextEdit.setVisible(True)
-            if self.detailText != "Downloaded " + str(
-                    current_items) + " of " + str(total_items):
+            if self.detailText != _("Downloaded") + " " + str(
+                    current_items) + " " + _("of") + " " + str(total_items):
                 self.detailText = (
-                    "Downloaded " + str(current_items) + " of "
-                    + str(total_items)
+                    _("Downloaded") + " " + str(current_items) + " " +
+                    _("of") + " " + str(total_items)
                 )
                 self.label.setText(self.detailText + "\n" + self.downloadText)
 
@@ -211,16 +211,16 @@ class DialogUpg(QWidget):
             error_desc = get_error_description_from_enum(
                 transaction.error.code)
 
-        text = "Upgrade finished"
+        text = _("Upgrade finished")
 
         reboot_required_path = Path("/var/run/reboot-required")
         if reboot_required_path.exists():
-            text = text + "\n" + "Restart required"
+            text = text + "\n" + _("Reboot required")
         self.progressBar.setVisible(False)
 
         if len(self.errors) > 0:
-            text = text + "\n With some Errors"
-            self.plainTextEdit.appendPlainText("Error Resume:\n")
+            text += "\n" + _("With some Errors")
+            self.plainTextEdit.appendPlainText(_("Error Resume:") + "\n")
             for error in self.errors:
                 self.plainTextEdit.setEnabled(False)
                 self.plainTextEdit.insertPlainText(error + "\n")
@@ -271,7 +271,7 @@ class DialogUpg(QWidget):
 
     def update_finish(self, transaction, exit_state):
         '''when update finish'''
-        self.label.setText("Update Cache Finished")
+        self.label.setText(_("Update Cache Finished"))
         if exit_state == EXIT_FAILED:
             error_string = get_error_string_from_enum(transaction.error.code)
             error_desc = get_error_description_from_enum(
@@ -366,8 +366,8 @@ def main(args, options):
 
     # Check for root permissions
     if os.geteuid() != 0:
-        text = "Please run this software with administrative rights."
-        text += "To do so, run this program with lxqt-sudo."
+        text = _("Please run this software with administrative rights."
+                 "To do so, run this program with lxqt-sudo.")
         title = "Need administrative powers"
         QMessageBox.critical(None, title, text)
         sys.exit()
@@ -376,18 +376,24 @@ def main(args, options):
 
 
 if __name__ == "__main__":
+    localesApp ="lubuntu-update-notifier"
+    localesDir ="/usr/share/locale"
+    gettext.bindtextdomain(localesApp, localesDir)
+    gettext.textdomain(localesApp)
+    _ = gettext.gettext
+
     # check arguments
     parser = ArgumentParser()
     parser.add_argument("-c",
                         "--cache-update",
                         action="store_true",
                         dest="cacheUpdate",
-                        help="Update Cache Before Upgrade")
+                        help=_("Update Cache Before Upgrade"))
     parser.add_argument("-f",
                         "--full-upgrade",
                         action="store_true",
                         dest="fullUpgrade",
-                        help="Full upgrade same as dist-upgrade")
+                        help=_("Full upgrade same as dist-upgrade"))
     parser.add_argument('--version',
                         action='version',
                         version='%(prog)s 0.1')

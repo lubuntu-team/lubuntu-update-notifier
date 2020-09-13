@@ -23,6 +23,7 @@ import subprocess
 from pathlib import Path
 import apt_pkg
 from argparse import ArgumentParser
+import gettext
 
 from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QPushButton,
                              QHBoxLayout, QVBoxLayout, QTreeWidget,
@@ -45,7 +46,7 @@ class Dialog(QWidget):
         try:
             self.cache = apt_pkg.Cache()
         except SystemError as e:
-            sys.stderr.write("Error: Opening the cache (%s)" % e)
+            sys.stderr.write(_("Error: Opening the cache (%s)") % e)
             sys.exit(-1)
         self.depcache = apt_pkg.DepCache(self.cache)
 
@@ -60,7 +61,7 @@ class Dialog(QWidget):
 
         self.tw = QTreeWidget()
         self.tw.setColumnCount(1)
-        self.tw.setHeaderLabels(['Affected Packages'])
+        self.tw.setHeaderLabels([_('Affected Packages')])
         self.tw.setHeaderHidden(True)
 
         self.upgradeBtn = QPushButton("Upgrade")
@@ -98,26 +99,28 @@ class Dialog(QWidget):
                     pkg_install.append(p.name)
                 elif self.depcache.marked_upgrade(p):
                     pkg_upgrade.append(p.name)
-            text = "There are upgrades available. Do you want to do a system"
-            text += " upgrade?\nThis will mean packages could be upgraded,"
-            text += " installed, or removed."
+            text = _("There are upgrades available. Do you want to do a system "
+                     "upgrade?")
+            text += "\n"
+            text += _("This will mean packages could be upgraded, installed, or "
+                    "removed.")
 
             if len(pkg_delete) > 0:
-                toDelete = QTreeWidgetItem(['Remove'])
+                toDelete = QTreeWidgetItem([_('Remove')])
                 for p in pkg_delete:
                     td_child = QTreeWidgetItem([p])
                     toDelete.addChild(td_child)
                 toDelete.setIcon(0, QIcon.fromTheme("edit-delete"))
                 self.tw.addTopLevelItem(toDelete)
             if len(pkg_install) > 0:
-                toInstall = QTreeWidgetItem(['Install'])
+                toInstall = QTreeWidgetItem([_('Install')])
                 for p in pkg_install:
                     td_child = QTreeWidgetItem([p])
                     toInstall.addChild(td_child)
                 toInstall.setIcon(0, QIcon.fromTheme("system-software-install"))
                 self.tw.addTopLevelItem(toInstall)
             if len(pkg_upgrade) > 0:
-                toUpgrade = QTreeWidgetItem(['Upgrade'])
+                toUpgrade = QTreeWidgetItem([_('Upgrade')])
                 for p in pkg_upgrade:
                     td_child = QTreeWidgetItem([p])
                     toUpgrade.addChild(td_child)
@@ -126,10 +129,11 @@ class Dialog(QWidget):
 
         if self.reboot_required:
             if text == "":
-                text = "Reboot is needed"
+                text = _("Reboot required")
                 self.upgradeBtn.setVisible(False)
             else:
-                text = text + "\nReboot is needed"
+                text += "\n"
+                text += _("Reboot required")
 
         self.label.setText(text)
 
@@ -148,7 +152,7 @@ class Dialog(QWidget):
 
     def call_upgrade(self):
         ''' starts upgrade process '''
-        self.label.setText("Upgrading...")
+        self.label.setText(_("Upgrading..."))
         # TODO maybe open another thread so notifier won't freeze
         if self.upg_path == "terminal":
             # cmd = ['qterminal', '-e', 'sudo', 'apt', 'dist-upgrade']
@@ -163,11 +167,11 @@ class Dialog(QWidget):
         process.wait()
 
         if self.upg_path == "terminal":
-            text = "Upgrade finished"
+            text = _("Upgrade finished")
 
             reboot_required_path = Path("/var/run/reboot-required")
             if reboot_required_path.exists():
-                text = text + "\n" + "Restart required"
+                text += "\n" + _("Reboot required")
             self.label.setText(text)
             self.closeBtn.setVisible(True)
             self.closeBtn.setEnabled(True)
@@ -195,21 +199,27 @@ def main(args, upgrades, security_upgrades, reboot_required, upg_path):
 
 
 if __name__ == "__main__":
+    localesApp ="lubuntu-update-notifier"
+    localesDir ="/usr/share/locale"
+    gettext.bindtextdomain(localesApp, localesDir)
+    gettext.textdomain(localesApp)
+    _ = gettext.gettext
+
     parser = ArgumentParser()
     parser.add_argument("-p",
                         "--upgrader-sw",
                         dest="upg_path",
-                        help="Define software/app to open for upgrade",
+                        help=_("Define software/app to open for upgrade"),
                         metavar="APP")
     parser.add_argument("-u",
                         "--upgrades",
                         dest="upgrades",
-                        help="How many upgrades are available",
+                        help=_("How many upgrades are available"),
                         metavar="APP")
     parser.add_argument("-s",
                         "--security-upg",
                         dest="security_upgrades",
-                        help="How many security upgrades are available",
+                        help=_("How many security upgrades are available"),
                         metavar="APP")
 
     options = parser.parse_args()

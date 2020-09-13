@@ -1,3 +1,9 @@
+lubuntu-update-notifier (0.4dev) UNRELEASED; urgency=medium
+
+  * added internationalization support
+
+ -- Hans P Möller <hmollercl@lubuntu.me>  Sat, 12 Sep 2020 13:59:25 -0300
+
 lubuntu-update-notifier (0.3) groovy; urgency=medium
 
   * Added affected packages info.
