@@ -78,7 +78,7 @@ msgid "There are upgrades available. Do you want to do a system upgrade?"
 msgstr ""
 
 #: lubuntu-notifier.py:105
-msgid "This will mean packages could be upgraded, installed, or removed."
+msgid "This will mean packages could be upgraded, installed or removed."
 msgstr ""
 
 #: lubuntu-notifier.py:109
