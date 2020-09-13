@@ -25,7 +25,7 @@ import apt_pkg
 from argparse import ArgumentParser
 import gettext
 
-from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QPushButton,
+from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QDialogButtonBox,
                              QHBoxLayout, QVBoxLayout, QTreeWidget,
                              QTreeWidgetItem)
 from PyQt5.QtCore import Qt
@@ -51,8 +51,8 @@ class Dialog(QWidget):
         self.depcache = apt_pkg.DepCache(self.cache)
 
         self.initUI()
-        self.upgradeBtn.clicked.connect(self.call_upgrade)
-        self.closeBtn.clicked.connect(self.call_reject)
+        self.buttonBox.rejected.connect(self.call_reject)
+        self.buttonBox.clicked.connect(self.call_upgrade)
 
     def initUI(self):
         ''' UI initialization '''
@@ -64,14 +64,13 @@ class Dialog(QWidget):
         self.tw.setHeaderLabels([_('Affected Packages')])
         self.tw.setHeaderHidden(True)
 
-        self.upgradeBtn = QPushButton("Upgrade")
-        self.closeBtn = QPushButton("Close")
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Cancel |
+                                          QDialogButtonBox.Apply)
         text = ""
 
         hbox = QHBoxLayout()
         hbox.addStretch(1)
-        hbox.addWidget(self.upgradeBtn)
-        hbox.addWidget(self.closeBtn)
+        hbox.addWidget(self.buttonBox)
         hbox.addStretch(1)
 
         vbox = QVBoxLayout()
@@ -150,34 +149,35 @@ class Dialog(QWidget):
         ''' when close button is pressed, quit '''
         app.quit()
 
-    def call_upgrade(self):
-        ''' starts upgrade process '''
-        self.label.setText(_("Upgrading..."))
-        # TODO maybe open another thread so notifier won't freeze
-        if self.upg_path == "terminal":
-            # cmd = ['qterminal', '-e', 'sudo', 'apt', 'dist-upgrade']
-            cmd = ['qterminal', '-e', './upg.sh']
-        else:
-            cmd = ['lxqt-sudo', self.upg_path, '--full-upgrade']
-        # process = subprocess.Popen(self.upg_path)
-        # process = subprocess.Popen(cmd, shell=True)
-        self.upgradeBtn.setVisible(False)
-        self.upgradeBtn.setEnabled(False)
-        process = subprocess.Popen(cmd)
-        process.wait()
+    def call_upgrade(self, btnClicked):
+        if(self.buttonBox.buttonRole(btnClicked) == QDialogButtonBox.ApplyRole):
+            ''' starts upgrade process '''
+            self.label.setText(_("Upgrading..."))
+            # TODO maybe open another thread so notifier won't freeze
+            if self.upg_path == "terminal":
+                # cmd = ['qterminal', '-e', 'sudo', 'apt', 'dist-upgrade']
+                cmd = ['qterminal', '-e', './upg.sh']
+            else:
+                cmd = ['lxqt-sudo', self.upg_path, '--full-upgrade']
+            # process = subprocess.Popen(self.upg_path)
+            # process = subprocess.Popen(cmd, shell=True)
+            self.upgradeBtn.setVisible(False)
+            self.upgradeBtn.setEnabled(False)
+            process = subprocess.Popen(cmd)
+            process.wait()
 
-        if self.upg_path == "terminal":
-            text = _("Upgrade finished")
+            if self.upg_path == "terminal":
+                text = _("Upgrade finished")
 
-            reboot_required_path = Path("/var/run/reboot-required")
-            if reboot_required_path.exists():
-                text += "\n" + _("Reboot required")
-            self.label.setText(text)
-            self.closeBtn.setVisible(True)
-            self.closeBtn.setEnabled(True)
+                reboot_required_path = Path("/var/run/reboot-required")
+                if reboot_required_path.exists():
+                    text += "\n" + _("Reboot required")
+                self.label.setText(text)
+                self.closeBtn.setVisible(True)
+                self.closeBtn.setEnabled(True)
 
-        else:
-            app.quit()
+            else:
+                app.quit()
 
 
 class App(QApplication):
