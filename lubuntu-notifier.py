@@ -78,8 +78,10 @@ class Dialog(QWidget):
         vbox.addWidget(self.tw)
         vbox.addLayout(hbox)
 
+        self.tw.setVisible(False)
+
         if self.upg_path is None:
-            self.upgradeBtn.setVisible(False)
+            self.buttonBox.button(QDialogButtonBox.Apply).setVisible(False)
 
         self.setLayout(vbox)
         self.setGeometry(300, 300, 500, 150)
@@ -87,6 +89,7 @@ class Dialog(QWidget):
         self.center()
 
         if self.upgrades > 0:
+            self.tw.setVisible(True)
             self.depcache.upgrade(True)  # True for non safe.
             pkg_install = list()
             pkg_upgrade = list()
@@ -133,7 +136,7 @@ class Dialog(QWidget):
         if self.reboot_required:
             if text == "":
                 text = _("Reboot required")
-                self.upgradeBtn.setVisible(False)
+                self.buttonBox.button(QDialogButtonBox.Apply).setVisible(False)
             else:
                 text += "\n"
                 text += _("Reboot required")
@@ -159,15 +162,10 @@ class Dialog(QWidget):
             ''' starts upgrade process '''
             self.label.setText(_("Upgrading..."))
             # TODO maybe open another thread so notifier won't freeze
-            if self.upg_path == "terminal":
-                # cmd = ['qterminal', '-e', 'sudo', 'apt', 'dist-upgrade']
-                cmd = ['qterminal', '-e', './upg.sh']
-            else:
-                cmd = ['lxqt-sudo', self.upg_path, '--full-upgrade']
-            # process = subprocess.Popen(self.upg_path)
-            # process = subprocess.Popen(cmd, shell=True)
-            self.upgradeBtn.setVisible(False)
-            self.upgradeBtn.setEnabled(False)
+            cmd = ['lxqt-sudo', self.upg_path, '--full-upgrade']
+            self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
+            self.buttonBox.button(QDialogButtonBox.Apply).setVisible(False)
+            self.tw.setVisible(False)
             process = subprocess.Popen(cmd)
             process.wait()
 
