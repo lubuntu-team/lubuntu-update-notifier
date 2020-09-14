@@ -10,6 +10,7 @@ Build-Depends: debhelper-compat (=13),
                python3-setuptools
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
+Testsuite: autopkgtest-pkg-python, autopkgtest
 
 Package: lubuntu-update-notifier
 Architecture: all

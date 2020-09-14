@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# test if apt-check is working as expected.
+
+OUT=`/usr/lib/update-notifier/apt-check 2>&1`
+oldIFS=$IFS
+IFS=';'
+j=0
+for STRING in $OUT; do
+    case $j in
+        0)
+            UPG=$STRING;;
+        1)
+            SEC=$STRING;;
+    esac
+        j=`expr $j + 1`
+done
+IFS=$oldIFS
+if [ $UPG -ge 0 ]; then
+    echo "Success: /usr/lib/update-notifier/apt-check is working"
+    exit 0
+else
+    echo "Failure: /usr/lib/update-notifier/apt-check is NOT working"
+    exit 1
+fi
