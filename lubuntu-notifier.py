@@ -158,7 +158,7 @@ class Dialog(QWidget):
                     td_child = QTreeWidgetItem(
                         [p[0].name + "  /  " + p[0].current_ver.ver_str +
                          "  ->  " + p[1].ver_str])
-                    if isSecurityUpgrade(p[1]) or p[0].name == 'vlc-bin':
+                    if isSecurityUpgrade(p[1]):
                         td_child.setIcon(1, QIcon.fromTheme("security-high"))
                         toUpgrade.setIcon(1, QIcon.fromTheme("security-high"))
                     toUpgrade.addChild(td_child)
