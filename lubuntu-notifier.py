@@ -27,9 +27,27 @@ import gettext
 
 from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QDialogButtonBox,
                              QHBoxLayout, QVBoxLayout, QTreeWidget,
-                             QTreeWidgetItem)
+                             QTreeWidgetItem, QHeaderView)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
+
+DISTRO = subprocess.check_output(
+    ["lsb_release", "-c", "-s"],
+    universal_newlines=True).strip()
+
+
+def isSecurityUpgrade(ver):
+    " check if the given version is a security update (or masks one) "
+    security_pockets = [("Ubuntu", "%s-security" % DISTRO),
+                        ("UbuntuESM", "%s-infra-security" % DISTRO),
+                        ("UbuntuESMApps", "%s-apps-security" % DISTRO),
+                        ("gNewSense", "%s-security" % DISTRO),
+                        ("Debian", "%s-updates" % DISTRO)]
+    for (file, index) in ver.file_list:
+        for origin, archive in security_pockets:
+            if (file.archive == archive and file.origin == origin):
+                return True
+    return False
 
 
 class Dialog(QWidget):
@@ -60,9 +78,16 @@ class Dialog(QWidget):
         self.label.setAlignment(Qt.AlignHCenter)
 
         self.tw = QTreeWidget()
-        self.tw.setColumnCount(1)
-        self.tw.setHeaderLabels([_('Affected Packages')])
-        self.tw.setHeaderHidden(True)
+        if self.security_upgrades > 0:
+            self.tw.setColumnCount(2)
+            self.tw.setHeaderLabels([_('Affected Packages'),
+                                     _('Security')])
+            self.tw.header().setSectionResizeMode(0, QHeaderView.Stretch)
+            self.tw.header().setStretchLastSection(False)
+        else:
+            self.tw.setColumnCount(1)
+            self.tw.setHeaderLabels([_('Affected Packages')])
+            self.tw.setHeaderHidden(True)
 
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Cancel |
                                           QDialogButtonBox.Apply)
@@ -117,19 +142,26 @@ class Dialog(QWidget):
             if len(pkg_install) > 0:
                 toInstall = QTreeWidgetItem([_('Install')])
                 for p in pkg_install:
-                    td_child = QTreeWidgetItem([p[0].name])
+                    td_child = QTreeWidgetItem([p[0].name + "  /  "
+                                                + p[1].ver_str])
+                    if isSecurityUpgrade(p[1]):
+                        td_child.setIcon(1, QIcon.fromTheme("security-high"))
+                        toInstall.setIcon(1, QIcon.fromTheme("security-high"))
                     toInstall.addChild(td_child)
-                    td_child.addChild(QTreeWidgetItem([p[1].ver_str]))
-                toInstall.setIcon(0,
-                                  QIcon.fromTheme("system-software-install"))
+                    # td_child.addChild(QTreeWidgetItem([p[1].ver_str]))
+                toInstall.setIcon(0, QIcon.fromTheme(
+                    "system-software-install"))
                 self.tw.addTopLevelItem(toInstall)
             if len(pkg_upgrade) > 0:
                 toUpgrade = QTreeWidgetItem([_('Upgrade')])
                 for p in pkg_upgrade:
-                    td_child = QTreeWidgetItem([p[0].name])
+                    td_child = QTreeWidgetItem(
+                        [p[0].name + "  /  " + p[0].current_ver.ver_str +
+                         "  ->  " + p[1].ver_str])
+                    if isSecurityUpgrade(p[1]) or p[0].name == 'vlc-bin':
+                        td_child.setIcon(1, QIcon.fromTheme("security-high"))
+                        toUpgrade.setIcon(1, QIcon.fromTheme("security-high"))
                     toUpgrade.addChild(td_child)
-                    td_child.addChild(QTreeWidgetItem(
-                        [p[0].current_ver.ver_str + "  ->  " + p[1].ver_str]))
                 toUpgrade.setIcon(0, QIcon.fromTheme("system-software-update"))
                 self.tw.addTopLevelItem(toUpgrade)
 

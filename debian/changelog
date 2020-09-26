@@ -2,6 +2,7 @@ lubuntu-update-notifier (0.4dev) UNRELEASED; urgency=medium
 
   * Added internationalization support.
   * Added packages version info.
+  * Added security package mark.
 
  -- Hans P Möller <hmollercl@lubuntu.me>  Sat, 12 Sep 2020 13:59:25 -0300
 
