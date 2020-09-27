@@ -67,6 +67,7 @@ class Dialog(QWidget):
             sys.stderr.write(_("Error: Opening the cache (%s)") % e)
             sys.exit(-1)
         self.depcache = apt_pkg.DepCache(self.cache)
+        self.records = apt_pkg.PackageRecords(self.cache)
 
         self.initUI()
         self.buttonBox.rejected.connect(self.call_reject)
@@ -148,7 +149,9 @@ class Dialog(QWidget):
                         td_child.setIcon(1, QIcon.fromTheme("security-high"))
                         toInstall.setIcon(1, QIcon.fromTheme("security-high"))
                     toInstall.addChild(td_child)
-                    # td_child.addChild(QTreeWidgetItem([p[1].ver_str]))
+                    self.records.lookup(p[1].file_list[0])
+                    short = QTreeWidgetItem([self.records.short_desc])
+                    td_child.addChild(short)
                 toInstall.setIcon(0, QIcon.fromTheme(
                     "system-software-install"))
                 self.tw.addTopLevelItem(toInstall)
@@ -162,6 +165,9 @@ class Dialog(QWidget):
                         td_child.setIcon(1, QIcon.fromTheme("security-high"))
                         toUpgrade.setIcon(1, QIcon.fromTheme("security-high"))
                     toUpgrade.addChild(td_child)
+                    self.records.lookup(p[1].file_list[0])
+                    short = QTreeWidgetItem([self.records.short_desc])
+                    td_child.addChild(short)
                 toUpgrade.setIcon(0, QIcon.fromTheme("system-software-update"))
                 self.tw.addTopLevelItem(toUpgrade)
 
