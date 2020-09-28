@@ -30,7 +30,14 @@ from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QDialogButtonBox,
                              QTreeWidgetItem, QHeaderView)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
+import importlib.util
 
+spec = importlib.util.spec_from_file_location(
+    "apt_check", "/usr/lib/update-notifier/apt_check.py")
+apt_check = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(apt_check)
+
+'''
 DISTRO = subprocess.check_output(
     ["lsb_release", "-c", "-s"],
     universal_newlines=True).strip()
@@ -48,7 +55,7 @@ def isSecurityUpgrade(ver):
             if (file.archive == archive and file.origin == origin):
                 return True
     return False
-
+'''
 
 class Dialog(QWidget):
     ''' UI '''
@@ -145,7 +152,7 @@ class Dialog(QWidget):
                 for p in pkg_install:
                     td_child = QTreeWidgetItem([p[0].name + "  /  "
                                                 + p[1].ver_str])
-                    if isSecurityUpgrade(p[1]):
+                    if apt_check.isSecurityUpgrade(p[1]):
                         td_child.setIcon(1, QIcon.fromTheme("security-high"))
                         toInstall.setIcon(1, QIcon.fromTheme("security-high"))
                     toInstall.addChild(td_child)
@@ -161,7 +168,7 @@ class Dialog(QWidget):
                     td_child = QTreeWidgetItem(
                         [p[0].name + "  /  " + p[0].current_ver.ver_str +
                          "  ->  " + p[1].ver_str])
-                    if isSecurityUpgrade(p[1]):
+                    if apt_check.isSecurityUpgrade(p[1]):
                         td_child.setIcon(1, QIcon.fromTheme("security-high"))
                         toUpgrade.setIcon(1, QIcon.fromTheme("security-high"))
                     toUpgrade.addChild(td_child)
