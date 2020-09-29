@@ -37,26 +37,6 @@ spec = importlib.util.spec_from_file_location(
 apt_check = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(apt_check)
 
-'''
-DISTRO = subprocess.check_output(
-    ["lsb_release", "-c", "-s"],
-    universal_newlines=True).strip()
-
-
-def isSecurityUpgrade(ver):
-    " check if the given version is a security update (or masks one) "
-    security_pockets = [("Ubuntu", "%s-security" % DISTRO),
-                        ("UbuntuESM", "%s-infra-security" % DISTRO),
-                        ("UbuntuESMApps", "%s-apps-security" % DISTRO),
-                        ("gNewSense", "%s-security" % DISTRO),
-                        ("Debian", "%s-updates" % DISTRO)]
-    for (file, index) in ver.file_list:
-        for origin, archive in security_pockets:
-            if (file.archive == archive and file.origin == origin):
-                return True
-    return False
-'''
-
 class Dialog(QWidget):
     ''' UI '''
 
