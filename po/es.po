@@ -74,7 +74,7 @@ msgstr "\"Full upgrade\" lo mismo que \"dist-upgrade\""
 
 #: lubuntu-notifier.py:64
 msgid "Affected Packages"
-msgstr "Paquetes adectados"
+msgstr "Paquetes afectados"
 
 #: lubuntu-notifier.py:102
 msgid "There are upgrades available. Do you want to do a system upgrade?"
