@@ -85,7 +85,15 @@ msgstr ""
 msgid "This will mean packages could be upgraded, installed or removed."
 msgstr "Esto implica que paquetes pueden actualizarse, instalarse o removerse."
 
-#: lubuntu-notifier.py:109
+#: lubuntu-notifier.py:125
+msgid " is a security upgrade."
+msgstr " es una actualización de seguridad."
+
+#: lubuntu-notifier.py:127
+msgid " are security upgrades."
+msgstr " son actualizaciones de seguridad."
+
+#: lubuntu-notifier.py:127
 msgid "Remove"
 msgstr "Quitar"
 

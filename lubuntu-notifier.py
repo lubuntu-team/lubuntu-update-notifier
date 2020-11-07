@@ -119,6 +119,12 @@ class Dialog(QWidget):
             text += "\n"
             text += _("This will mean packages could be upgraded, installed or"
                       " removed.")
+            if self.security_upgrades > 0:
+                text += "\n" + str(self.security_upgrades)
+                if self.security_upgrades == 1:
+                    text += _(" is a security upgrade.")
+                else:
+                    text += _(" are security upgrades.")
 
             if len(pkg_delete) > 0:
                 toDelete = QTreeWidgetItem([_('Remove')])
