@@ -1,8 +1,10 @@
 [Desktop Entry]
 Exec=lxqt-sudo /usr/bin/lubuntu-upgrader --cache-update --full-upgrade
 Name=Apply Full Upgrade
+Name[ja]=すべてのアップグレードの適用 (Apply Full Upgrade)
 GenericName=Apply Full Upgrade
 Comment=Search and Apply Full Upgrade
+Comment[ja]=すべてのアップグレードの検索と適用
 Icon=system-software-update
 Type=Application
 Version=0.1

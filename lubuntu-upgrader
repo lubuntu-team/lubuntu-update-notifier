@@ -236,12 +236,12 @@ class DialogUpg(QWidget):
     def upgrade_error(self, transaction, error_code, error_details):
         '''if error during upgrade'''
         self.plainTextEdit.setVisible(True)
-        self.errors.append("Eror Code: " + str(error_code))
+        self.errors.append("Error Code: " + str(error_code))
         self.errors.append("Error Detail: " + error_details)
         self.plainTextEdit.setVisible(True)
         self.closeBtn.setEnabled(True)
-        print("ECode: " + str(error_code) + "\n")
-        print("EDetail: " + error_details + "\n")
+        print(_("ECode: ") + str(error_code) + "\n")
+        print(_("EDetail: ") + error_details + "\n")
 
     def upgrade_cancellable_changed(self, transaction, cancellable):
         '''when upgrade cancellable toogle'''
@@ -266,7 +266,7 @@ class DialogUpg(QWidget):
             self.trans1.run()
 
         except (NotAuthorizedError, TransactionFailed) as e:
-            print("Warning: install transaction not completed successfully:"
+            print(_("Warning: install transaction not completed successfully:")
                   + "{}".format(e))
 
     def update_finish(self, transaction, exit_state):
@@ -310,7 +310,7 @@ class DialogUpg(QWidget):
                 self.label.setText(self.detailText + "\n" + details)
                 # if is downloading put the "Downloaded x of y" text
             # print("PTY:" + str(self.slave))
-            print("Status Details:" + details)
+            print(_("Status Details:") + details)
 
     def upgrade(self):
         '''runs upgrade'''
@@ -342,7 +342,7 @@ class DialogUpg(QWidget):
             self.trans2.run()
 
         except (NotAuthorizedError, TransactionFailed) as e:
-            print("Warning: install transaction not completed successfully:"
+            print(_("Warning: install transaction not completed successfully:")
                   + "{}".format(e))
 
     def call_reject(self):
