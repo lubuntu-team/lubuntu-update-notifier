@@ -1,10 +1,10 @@
-lubuntu-update-notifier (0.4dev) UNRELEASED; urgency=medium
+lubuntu-update-notifier (0.4) hirsute; urgency=medium
 
   * Added internationalization support.
   * Added packages version and description.
   * Added security package mark and count.
 
- -- Hans P Möller <hmollercl@lubuntu.me>  Sat, 12 Sep 2020 13:59:25 -0300
+ -- Hans P Möller <hmollercl@lubuntu.me>  Sun, 14 Feb 2021 21:06:03 -0300
 
 lubuntu-update-notifier (0.3) groovy; urgency=medium
 
