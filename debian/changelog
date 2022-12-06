@@ -1,6 +1,7 @@
 lubuntu-update-notifier (0.5) UNRELEASED; urgency=medium
 
   * Add a frontend for config-file-conflict.
+  * Update Standards-version to 4.6.1, no changes needed.
 
  -- Simon Quigley <tsimonq2@ubuntu.com>  Tue, 06 Dec 2022 12:35:46 -0600
 
