@@ -2,8 +2,9 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Source: https://phab.lubuntu.me/source/lubuntu-update-notifier/
 
 Files: *
-Copyright: © 2019 Lubuntu Team.
-           © 2019 Hans P Möller <hmollercl@lubuntu.me>
+Copyright: 2019-2022 Lubuntu Team <lubuntu-devel@lists.ubuntu.com>
+           2019 Hans P Möller <hmollercl@lubuntu.me>
+           2022 Simon Quigley <tsimonq2@lubuntu.me>
 License: GPL-3+
 
 License: GPL-3+

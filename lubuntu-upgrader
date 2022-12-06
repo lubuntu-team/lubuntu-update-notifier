@@ -2,6 +2,7 @@
 # coding=utf-8
 
 # Copyright (C) 2019 Hans P. Möller <hmollercl@lubuntu.me>
+# Copyright (C) 2022 Simon Quigley <tsimonq2@lubuntu.me>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -312,6 +313,29 @@ class DialogUpg(QWidget):
             # print("PTY:" + str(self.slave))
             print("Status Details:" + details)
 
+    def config_file_conflict(self, transaction, cur, new):
+        title = "Conflicting Configuration"
+        text = "Updating the system will result in the following file being "
+        text += "overwritten: " + cur + "\n\nWhat would you like to do?"
+        query = QMessageBox()
+        query.setWindowTitle(title)
+        query.setText(text)
+        query.setIcon(QMessageBox.Question)
+        query.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+        yes = query.button(QMessageBox.Yes)
+        yes.setText("Overwrite")
+        no = query.button(QMessageBox.No)
+        no.setText("Keep Existing")
+        query.setDefaultButton(no)
+        query.exec_()
+
+        if query.clickedButton() == yes:
+            answer = "replace"
+        elif query.clickedButton() == no:
+            answer = "keep"
+
+        self.trans2.resolve_config_file_conflict(config=cur, answer=answer)
+
     def upgrade(self):
         '''runs upgrade'''
         try:
@@ -327,6 +351,8 @@ class DialogUpg(QWidget):
             self.trans2.connect("status-details-changed",
                                 self.status_details_changed)
             self.trans2.connect("status-changed", self.status_changed)
+            self.trans2.connect("config-file-conflict",
+                                self.config_file_conflict)
 
             # TODO make a terminal work to see more info
             # self.trans2.set_terminal(os.ttyname(self.slave))
@@ -334,8 +360,6 @@ class DialogUpg(QWidget):
             '''
             # TODO implement this
             self.trans2.connect("medium-required", self._on_medium_required)
-            self.trans2.connect("config-file-conflict",
-                                self._on_config_file_conflict)
             remove_obsoleted_depends
             '''
             self.trans2.set_debconf_frontend('kde')
