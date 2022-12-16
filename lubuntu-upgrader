@@ -65,6 +65,8 @@ class DialogUpg(QWidget):
                             #stderr=subprocess.PIPE
                             stderr=self.slave)'''
 
+        self.trans3 = self.apt_client.fix_incomplete_install()
+        self.repair_install()
         if options.fullUpgrade:
             self.trans2 = self.apt_client.upgrade_system(safe_mode=False)
             self.setWindowTitle('Full Upgrade')
@@ -128,6 +130,12 @@ class DialogUpg(QWidget):
         self.progressBar.setVisible(True)
         self.progressBar.setValue(progress)
         self.label.setText(_("Updating cache..."))
+
+    def repair_progress(self, transaction, progress):
+        '''upgrade progressbar during update'''
+        self.progressBar.setVisible(True)
+        self.progressBar.setValue(progress)
+        self.label.setText(_("Repairing interrupted upgrade if necessary..."))
 
     def update_progress_download(self, transaction, uri, status, short_desc,
                                  total_size, current_size, msg):
@@ -373,6 +381,36 @@ class DialogUpg(QWidget):
         '''when close button is pushed, quit'''
         app.quit()
 
+    def repair_install(self):
+        self.closeBtn.setVisible(False)
+        try:
+            self.trans3.connect('progress-changed', self.repair_progress)
+            self.trans3.connect('status-changed', self.status_changed)
+            self.trans3.connect('status-details-changed',
+                                self.status_details_changed)
+            self.trans3.connect('config-file-conflict',
+                                self.config_file_conflict)
+            self.trans3.connect('finished', self.repair_finish)
+            self.trans3.connect('error', self.upgrade_error)
+            self.trans3.run()
+
+        except (NotAuthorizedError, TransactionFailed) as e:
+            print("Warning: install transaction not completed successfully:"
+                  + "{}".format(e))
+
+    def repair_finish(self, transaction, exit_state):
+        '''when repair finish'''
+        self.label.setText(_("Repair Finished (if repair was needed)"))
+        if exit_state == EXIT_FAILED:
+            error_string = get_error_string_from_enum(transaction.error.code)
+            error_desc = get_error_description_from_enum(
+                transaction.error.code)
+            self.plainTextEdit.setEnabled(False)
+            self.plainTextEdit.moveCursor(QTextCursor.End)
+            self.plainTextEdit.insertPlainText(error_string + "\n")
+            self.plainTextEdit.insertPlainText(error_desc + "\n")
+            self.plainTextEdit.moveCursor(QTextCursor.End)
+            self.plainTextEdit.setEnabled(True)
 
 class App(QApplication):
     '''app'''
