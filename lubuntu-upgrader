@@ -392,6 +392,7 @@ class DialogUpg(QWidget):
                                 self.config_file_conflict)
             self.trans3.connect('finished', self.repair_finish)
             self.trans3.connect('error', self.upgrade_error)
+            self.trans3.set_debconf_frontend('kde')
             self.trans3.run()
 
         except (NotAuthorizedError, TransactionFailed) as e:
