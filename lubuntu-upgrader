@@ -334,7 +334,7 @@ class DialogUpg(QWidget):
         elif query.clickedButton() == no:
             answer = "keep"
 
-        self.trans2.resolve_config_file_conflict(config=cur, answer=answer)
+        transaction.resolve_config_file_conflict(config=cur, answer=answer)
 
     def upgrade(self):
         '''runs upgrade'''
