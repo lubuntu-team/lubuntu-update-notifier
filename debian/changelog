@@ -2,6 +2,7 @@ lubuntu-update-notifier (0.5.1) lunar; urgency=medium
 
   * Added functionality for repairing an interrupted upgrade.
   * Fixed an assumption in the config-file-conflict frontend.
+  * Bumped version number in lubuntu-upgrader.
 
  -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Wed, 14 Dec 2022 12:32:48 -0600
 
