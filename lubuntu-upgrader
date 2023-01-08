@@ -388,8 +388,6 @@ class DialogUpg(QWidget):
             self.trans3.connect('status-changed', self.status_changed)
             self.trans3.connect('status-details-changed',
                                 self.status_details_changed)
-            self.trans3.connect('config-file-conflict',
-                                self.config_file_conflict)
             self.trans3.connect('finished', self.repair_finish)
             self.trans3.connect('error', self.upgrade_error)
             self.trans3.set_debconf_frontend('kde')
