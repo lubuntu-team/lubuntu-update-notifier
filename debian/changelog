@@ -1,3 +1,9 @@
+lubuntu-update-notifier (0.5.3) lunar; urgency=medium
+
+  * Changed some strings and fixed a typo in the autopkgtest tweak
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Thu, 02 Feb 2023 11:45:32 -0600
+
 lubuntu-update-notifier (0.5.2) lunar; urgency=medium
 
   * Tweaked the autopkgtest script to return more detailed debugging info.

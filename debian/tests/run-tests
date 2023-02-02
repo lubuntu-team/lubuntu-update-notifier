@@ -18,14 +18,14 @@ done
 IFS=$oldIFS
 if [ $UPG -ge 0 ]; then
     echo "Success: /usr/lib/update-notifier/apt-check is working"
-    echo "Debugging output >>>"
+    echo "Debugging output:"
     echo $OUT;
-    echo "<<< End debugging output
+    echo "End debugging output"
     exit 0
 else
     echo "Failure: /usr/lib/update-notifier/apt-check is NOT working"
-    echo "Debugging output >>>"
+    echo "Debugging output:"
     echo $OUT;
-    echo "<<< End debugging output"
+    echo "End debugging output"
     exit 1
 fi
