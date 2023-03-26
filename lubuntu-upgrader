@@ -2,6 +2,7 @@
 # coding=utf-8
 
 # Copyright (C) 2019 Hans P. Möller <hmollercl@lubuntu.me>
+# Copyright (C) 2022 Simon Quigley <tsimonq2@lubuntu.me>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -64,6 +65,8 @@ class DialogUpg(QWidget):
                             #stderr=subprocess.PIPE
                             stderr=self.slave)'''
 
+        self.trans3 = self.apt_client.fix_incomplete_install()
+        self.repair_install()
         if options.fullUpgrade:
             self.trans2 = self.apt_client.upgrade_system(safe_mode=False)
             self.setWindowTitle('Full Upgrade')
@@ -127,6 +130,12 @@ class DialogUpg(QWidget):
         self.progressBar.setVisible(True)
         self.progressBar.setValue(progress)
         self.label.setText(_("Updating cache..."))
+
+    def repair_progress(self, transaction, progress):
+        '''upgrade progressbar during update'''
+        self.progressBar.setVisible(True)
+        self.progressBar.setValue(progress)
+        self.label.setText(_("Repairing interrupted upgrade if necessary..."))
 
     def update_progress_download(self, transaction, uri, status, short_desc,
                                  total_size, current_size, msg):
@@ -312,6 +321,29 @@ class DialogUpg(QWidget):
             # print("PTY:" + str(self.slave))
             print("Status Details:" + details)
 
+    def config_file_conflict(self, transaction, cur, new):
+        title = "Conflicting Configuration"
+        text = "Updating the system will result in the following file being "
+        text += "overwritten: " + cur + "\n\nWhat would you like to do?"
+        query = QMessageBox()
+        query.setWindowTitle(title)
+        query.setText(text)
+        query.setIcon(QMessageBox.Question)
+        query.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+        yes = query.button(QMessageBox.Yes)
+        yes.setText("Overwrite")
+        no = query.button(QMessageBox.No)
+        no.setText("Keep Existing")
+        query.setDefaultButton(no)
+        query.exec_()
+
+        if query.clickedButton() == yes:
+            answer = "replace"
+        elif query.clickedButton() == no:
+            answer = "keep"
+
+        transaction.resolve_config_file_conflict(config=cur, answer=answer)
+
     def upgrade(self):
         '''runs upgrade'''
         try:
@@ -327,6 +359,8 @@ class DialogUpg(QWidget):
             self.trans2.connect("status-details-changed",
                                 self.status_details_changed)
             self.trans2.connect("status-changed", self.status_changed)
+            self.trans2.connect("config-file-conflict",
+                                self.config_file_conflict)
 
             # TODO make a terminal work to see more info
             # self.trans2.set_terminal(os.ttyname(self.slave))
@@ -334,8 +368,6 @@ class DialogUpg(QWidget):
             '''
             # TODO implement this
             self.trans2.connect("medium-required", self._on_medium_required)
-            self.trans2.connect("config-file-conflict",
-                                self._on_config_file_conflict)
             remove_obsoleted_depends
             '''
             self.trans2.set_debconf_frontend('kde')
@@ -349,6 +381,35 @@ class DialogUpg(QWidget):
         '''when close button is pushed, quit'''
         app.quit()
 
+    def repair_install(self):
+        self.closeBtn.setVisible(False)
+        try:
+            self.trans3.connect('progress-changed', self.repair_progress)
+            self.trans3.connect('status-changed', self.status_changed)
+            self.trans3.connect('status-details-changed',
+                                self.status_details_changed)
+            self.trans3.connect('finished', self.repair_finish)
+            self.trans3.connect('error', self.upgrade_error)
+            self.trans3.set_debconf_frontend('kde')
+            self.trans3.run()
+
+        except (NotAuthorizedError, TransactionFailed) as e:
+            print("Warning: install transaction not completed successfully:"
+                  + "{}".format(e))
+
+    def repair_finish(self, transaction, exit_state):
+        '''when repair finish'''
+        self.label.setText(_("Repair Finished (if repair was needed)"))
+        if exit_state == EXIT_FAILED:
+            error_string = get_error_string_from_enum(transaction.error.code)
+            error_desc = get_error_description_from_enum(
+                transaction.error.code)
+            self.plainTextEdit.setEnabled(False)
+            self.plainTextEdit.moveCursor(QTextCursor.End)
+            self.plainTextEdit.insertPlainText(error_string + "\n")
+            self.plainTextEdit.insertPlainText(error_desc + "\n")
+            self.plainTextEdit.moveCursor(QTextCursor.End)
+            self.plainTextEdit.setEnabled(True)
 
 class App(QApplication):
     '''app'''
@@ -396,7 +457,7 @@ if __name__ == "__main__":
                         help=_("Full upgrade same as dist-upgrade"))
     parser.add_argument('--version',
                         action='version',
-                        version='%(prog)s 0.4')
+                        version='%(prog)s 0.5.1')
     options = parser.parse_args()
 
     # run it
