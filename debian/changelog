@@ -3,6 +3,8 @@ lubuntu-update-notifier (0.5.4) lunar; urgency=medium
   * Disconnect the status_changed() function from the status-changed signal in
     repair_install(), as it interferes with upgrade_progress_download().
     (LP: #2012702)
+  * Don't try to pass a string to QTreeWidgetItem when it expects an
+    Iterable[str]. (LP: #2012823)
 
  -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 26 Mar 2023 10:48:15 -0500
 
