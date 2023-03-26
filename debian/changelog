@@ -1,3 +1,24 @@
+lubuntu-update-notifier (0.5.1~22.10.2) kinetic; urgency=medium
+
+  * SRU backport of 0.5.1 to the Kinetic stable release.
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 08 Jan 2023 17:53:27 -0600
+
+lubuntu-update-notifier (0.5.1) lunar; urgency=medium
+
+  * Added functionality for repairing an interrupted upgrade. (LP: #2002255)
+  * Fixed an assumption in the config-file-conflict frontend.
+  * Bumped version number in lubuntu-upgrader.
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Wed, 14 Dec 2022 12:32:48 -0600
+
+lubuntu-update-notifier (0.5) lunar; urgency=medium
+
+  * Add a frontend for config-file-conflict.
+  * Update Standards-version to 4.6.1, no changes needed.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 07 Dec 2022 13:26:39 -0600
+
 lubuntu-update-notifier (0.4) hirsute; urgency=medium
 
   * Added internationalization support.
