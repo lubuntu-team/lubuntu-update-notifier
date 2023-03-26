@@ -1,3 +1,10 @@
+lubuntu-update-notifier (0.5.1~22.04.3) jammy; urgency=medium
+
+  * Don't try to pass a string to QTreeWidgetItem when it expects an
+    Iterable[str]. (LP: #2012823)
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 26 Mar 2023 12:21:33 -0500
+
 lubuntu-update-notifier (0.5.1~22.04.2) jammy; urgency=medium
 
   * SRU backport of 0.5.1 to the Jammy stable release.
