@@ -129,7 +129,7 @@ class Dialog(QWidget):
             if len(pkg_delete) > 0:
                 toDelete = QTreeWidgetItem([_('Remove')])
                 for p in pkg_delete:
-                    td_child = QTreeWidgetItem(p.name)
+                    td_child = QTreeWidgetItem([p.name])
                     toDelete.addChild(td_child)
                 toDelete.setIcon(0, QIcon.fromTheme("edit-delete"))
                 self.tw.addTopLevelItem(toDelete)

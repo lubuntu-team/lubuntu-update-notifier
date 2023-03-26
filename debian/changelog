@@ -1,3 +1,10 @@
+lubuntu-update-notifier (0.5.1~22.10.3) kinetic; urgency=medium
+
+  * Don't try to pass a string to QTreeWidgetItem when it expects an
+    Iterable[str]. (LP: #2012823)
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 26 Mar 2023 16:29:40 -0500
+
 lubuntu-update-notifier (0.5.1~22.10.2) kinetic; urgency=medium
 
   * SRU backport of 0.5.1 to the Kinetic stable release.
