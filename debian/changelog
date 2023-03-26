@@ -1,3 +1,11 @@
+lubuntu-update-notifier (0.5.4) lunar; urgency=medium
+
+  * Disconnect the status_changed() function from the status-changed signal in
+    repair_install(), as it interferes with upgrade_progress_download().
+    (LP: #2012702)
+
+ -- Aaron Rainbolt <arraybolt3@ubuntu.com>  Sun, 26 Mar 2023 10:48:15 -0500
+
 lubuntu-update-notifier (0.5.3) lunar; urgency=medium
 
   * Changed some strings and fixed a typo in the autopkgtest tweak

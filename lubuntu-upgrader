@@ -385,7 +385,9 @@ class DialogUpg(QWidget):
         self.closeBtn.setVisible(False)
         try:
             self.trans3.connect('progress-changed', self.repair_progress)
-            self.trans3.connect('status-changed', self.status_changed)
+            # TODO the next line breaks the ability to see download progress
+            # for... some reason. Maybe an aptd bug?
+            # self.trans3.connect('status-changed', self.status_changed)
             self.trans3.connect('status-details-changed',
                                 self.status_details_changed)
             self.trans3.connect('finished', self.repair_finish)
