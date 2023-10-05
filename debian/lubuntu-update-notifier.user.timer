@@ -1,0 +1,10 @@
+[Unit]
+Description=Lubuntu Update Notifier
+Requires=lubuntu-update-notifier.service
+
+[Timer]
+Unit=lubuntu-update-notifier.service
+OnCalendar=*-*-* *:00:00
+
+[Install]
+WantedBy=timers.target

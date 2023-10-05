@@ -1,0 +1,7 @@
+[Unit]
+Description=Lubuntu Update Notifier
+Wants=update-notifier-download.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/lubuntu-update-notifier/lubuntu-upg-notifier.sh

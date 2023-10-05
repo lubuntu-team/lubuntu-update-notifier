@@ -1,3 +1,9 @@
+lubuntu-update-notifier (0.6.1) UNRELEASED; urgency=medium
+
+  * Rough, initial migration to systemd units.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Tue, 10 Oct 2023 14:14:56 -0500
+
 lubuntu-update-notifier (0.6.0) mantic; urgency=medium
 
   * Add support for release upgrading, when all updates are applied (LP: #2038958).

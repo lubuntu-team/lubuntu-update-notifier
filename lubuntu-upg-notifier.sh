@@ -39,5 +39,4 @@ while true;
             VERSION=`echo $NEWREL_CHECK | awk -F\' '/available/{print $2}'`
         fi
         /usr/libexec/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -r $NEWREL -v $VERSION -p /usr/bin/lubuntu-upgrader
-        sleep 86400
 done;
