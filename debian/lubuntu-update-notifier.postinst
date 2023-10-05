@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# This file can be removed following the release of Lubuntu 24.04 LTS
+# It's to ensure a smooth transition between the autostart file and the new
+# systemd user units provided
+
+rm -f /etc/xdg/autostart/upg-notifier-autostart.desktop
+rm -f /home/*/.config/autostart/upg-notifier-autostart.desktop
+
+#DEBHELPER#

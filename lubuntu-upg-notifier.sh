@@ -16,27 +16,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-while true;
-    do
-        OUT=`/usr/lib/update-notifier/apt-check 2>&1`
-        oldIFS=$IFS
-        IFS=';'
-        j=0
-        for STRING in $OUT; do
-            case $j in
-                0)
-                    UPG=$STRING;;
-                1)
-                    SEC=$STRING;;
-            esac
-             j=`expr $j + 1`
-        done
-        IFS=$oldIFS
+OUT=`/usr/lib/update-notifier/apt-check 2>&1`
+oldIFS=$IFS
+IFS=';'
+j=0
+for STRING in $OUT; do
+    case $j in
+	0)
+	    UPG=$STRING;;
+	1)
+	    SEC=$STRING;;
+    esac
+     j=`expr $j + 1`
+done
+IFS=$oldIFS
 
-        NEWREL_CHECK=`/usr/bin/do-release-upgrade -c 2>&1`
-        NEWREL=$?
-        if [ "$NEWREL" -eq 0 ]; then
-            VERSION=`echo $NEWREL_CHECK | awk -F\' '/available/{print $2}'`
-        fi
-        /usr/libexec/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -r $NEWREL -v $VERSION -p /usr/bin/lubuntu-upgrader
-done;
+NEWREL_CHECK=`/usr/bin/do-release-upgrade -c 2>&1`
+NEWREL=$?
+if [ "$NEWREL" -eq 0 ]; then
+    VERSION=`echo $NEWREL_CHECK | awk -F\' '/available/{print $2}'`
+fi
+
+/usr/libexec/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -r $NEWREL -v $VERSION -p /usr/bin/lubuntu-upgrader
