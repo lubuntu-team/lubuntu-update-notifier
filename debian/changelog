@@ -1,3 +1,9 @@
+lubuntu-update-notifier (0.6.0~23.04.1) lunar; urgency=medium
+
+  * Add support for release upgrading, when all updates are applied (LP: #2038958).
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Tue, 10 Oct 2023 14:06:19 -0500
+
 lubuntu-update-notifier (0.5.4) lunar; urgency=medium
 
   * Disconnect the status_changed() function from the status-changed signal in
