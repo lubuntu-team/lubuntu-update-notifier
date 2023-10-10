@@ -32,6 +32,12 @@ while true;
              j=`expr $j + 1`
         done
         IFS=$oldIFS
-        /usr/libexec/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -p /usr/bin/lubuntu-upgrader
+
+        NEWREL_CHECK=`/usr/bin/do-release-upgrade -c 2>&1`
+        NEWREL=$?
+        if [ "$NEWREL" -eq 0 ]; then
+            VERSION=`echo $NEWREL_CHECK | awk -F\' '/available/{print $2}'`
+        fi
+        /usr/libexec/lubuntu-update-notifier/lubuntu-notifier.py -u $UPG -s $SEC -r $NEWREL -v $VERSION -p /usr/bin/lubuntu-upgrader
         sleep 86400
 done;

@@ -2,6 +2,7 @@
 # coding=utf-8
 
 # Copyright (C) 2019 Hans P. Möller <hmollercl@lubuntu.me>
+# Copyright (C) 2023 Simon Quigley <tsimonq2@lubuntu.me>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,8 +29,10 @@ import gettext
 from PyQt5.QtWidgets import (QWidget, QApplication, QLabel, QDialogButtonBox,
                              QHBoxLayout, QVBoxLayout, QTreeWidget,
                              QTreeWidgetItem, QHeaderView)
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon
+from launchpadlib.launchpad import Launchpad
+
 import importlib.util
 
 spec = importlib.util.spec_from_file_location(
@@ -37,15 +40,34 @@ spec = importlib.util.spec_from_file_location(
 apt_check = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(apt_check)
 
+class RunUpgradeThread(QThread):
+    finished = pyqtSignal()
+
+    def __init__(self, cmd):
+        super().__init__()
+        self.cmd = cmd
+
+    def run(self):
+        process = subprocess.Popen(self.cmd)
+        process.wait()
+        self.finished.emit()
+
 class Dialog(QWidget):
     ''' UI '''
 
-    def __init__(self, upgrades, security_upgrades, reboot_required, upg_path):
+    def __init__(self, upgrades, security_upgrades, release_upgrade, version, reboot_required, upg_path):
         QWidget.__init__(self)
         self.upgrades = upgrades
         self.security_upgrades = security_upgrades
+        self.release_upgrade = release_upgrade
+        self.version = version
         self.upg_path = upg_path
         self.reboot_required = reboot_required
+
+        try:
+            self.launchpad = Launchpad.login_anonymously("lubuntu-update-notifier", "production", version="devel")
+        except:
+            self.launchpad = None
 
         apt_pkg.init()
         try:
@@ -64,6 +86,8 @@ class Dialog(QWidget):
         ''' UI initialization '''
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignHCenter)
+        self.label.setTextFormat(Qt.RichText)
+        self.label.setOpenExternalLinks(True)
 
         self.tw = QTreeWidget()
         if self.security_upgrades > 0:
@@ -93,7 +117,7 @@ class Dialog(QWidget):
 
         self.tw.setVisible(False)
 
-        if self.upg_path is None:
+        if self.upg_path is None and not self.release_upgrade:
             self.buttonBox.button(QDialogButtonBox.Apply).setVisible(False)
 
         self.setLayout(vbox)
@@ -163,6 +187,10 @@ class Dialog(QWidget):
                     td_child.addChild(short)
                 toUpgrade.setIcon(0, QIcon.fromTheme("system-software-update"))
                 self.tw.addTopLevelItem(toUpgrade)
+        elif self.release_upgrade:
+            self.setWindowTitle("Upgrade Lubuntu")
+            text = self.new_version_text()
+            self.buttonBox.clicked.connect(self.call_release_upgrader)
 
         if self.reboot_required:
             if text == "":
@@ -192,43 +220,83 @@ class Dialog(QWidget):
            QDialogButtonBox.ApplyRole):
             ''' starts upgrade process '''
             self.label.setText(_("Upgrading..."))
-            # TODO maybe open another thread so notifier won't freeze
-            cmd = ['lxqt-sudo', self.upg_path, '--full-upgrade']
             self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
             self.buttonBox.button(QDialogButtonBox.Apply).setVisible(False)
             self.tw.setVisible(False)
-            process = subprocess.Popen(cmd)
-            process.wait()
 
-            if self.upg_path == "terminal":
-                text = _("Upgrade finished")
+            cmd = ["lxqt-sudo", self.upg_path, "--full-upgrade"]
+            self.thread = RunUpgradeThread(cmd)
+            self.thread.finished.connect(self.on_upgrade_finished)
+            self.thread.start()
 
-                reboot_required_path = Path("/var/run/reboot-required")
-                if reboot_required_path.exists():
-                    text += "\n" + _("Reboot required")
-                self.label.setText(text)
-                self.closeBtn.setVisible(True)
-                self.closeBtn.setEnabled(True)
+    def on_upgrade_finished(self):
+        if self.upg_path == "terminal":
+            text = _("Upgrade finished")
 
-            else:
-                app.quit()
+            reboot_required_path = Path("/var/run/reboot-required")
+            if reboot_required_path.exists():
+                text += "\n" + _("Reboot required")
+            self.label.setText(text)
+            self.closeBtn.setVisible(True)
+            self.closeBtn.setEnabled(True)
+        elif self.release_upgrade:
+            self.setWindowTitle("Upgrade Lubuntu")
+            self.label.setText(self.new_version_text())
+            self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(True)
+            self.buttonBox.button(QDialogButtonBox.Apply).setVisible(True)
+            self.buttonBox.clicked.disconnect(self.call_upgrade)
+            self.buttonBox.clicked.connect(self.call_release_upgrader)
+        else:
+            app.quit()
+
+    def call_release_upgrader(self, btnClicked):
+        if self.buttonBox.buttonRole(btnClicked) == QDialogButtonBox.ApplyRole:
+            cmd = ["lxqt-sudo", "do-release-upgrade", "-m", "desktop", "-f", "DistUpgradeViewKDE"]
+            self.thread2 = RunUpgradeThread(cmd)
+            self.thread2.finished.connect(self.call_reject)
+            self.thread2.start()
+        elif self.buttonBox.buttonRole(btnClicked) == QDialogButtonBox.RejectRole:
+            self.call_reject()
+
+    def new_version_text(self):
+        try:
+            main_version = '.'.join(self.version.split()[0].split('.')[:2])
+            codename = self.launchpad.distributions["ubuntu"].getSeries(name_or_version=main_version).name
+        except:
+            codename = None
+
+        if codename:
+            url_suffix = ""
+            point_release = self.version.split(".")[2].split(" ")[0] if "." in self.version[4:] else "0"
+            if point_release != "0":
+                url_suffix = f"-{int(point_release)}"
+            url_suffix += "-released"
+
+            text = f"<a href='https://lubuntu.me/{codename}{url_suffix}/'>"
+            text += _("A new version of Lubuntu") + "</a> "
+            text += _("is available. Would you like to install it?")
+        else:
+            text = _("A new version of Lubuntu is available. Would you like to install it?")
+
+        return text
 
 
 class App(QApplication):
     '''application'''
 
-    def __init__(self, upgrades, security_upgrades, reboot_required, upg_path,
+    def __init__(self, upgrades, security_upgrades, release_upgrade, version, reboot_required, upg_path,
                  *args):
         QApplication.__init__(self, *args)
-        self.dialog = Dialog(upgrades, security_upgrades, reboot_required,
+        self.dialog = Dialog(upgrades, security_upgrades, release_upgrade, version, reboot_required,
                              upg_path)
         self.dialog.show()
 
 
-def main(args, upgrades, security_upgrades, reboot_required, upg_path):
+
+def main(args, upgrades, security_upgrades, release_upgrade, version, reboot_required, upg_path):
     '''main'''
     global app
-    app = App(upgrades, security_upgrades, reboot_required, upg_path, args)
+    app = App(upgrades, security_upgrades, release_upgrade, version, reboot_required, upg_path, args)
     app.setWindowIcon(QIcon.fromTheme("system-software-update"))
     app.exec_()
 
@@ -256,12 +324,29 @@ if __name__ == "__main__":
                         dest="security_upgrades",
                         help=_("How many security upgrades are available"),
                         metavar="APP")
+    parser.add_argument("-r",
+                        "--release-upgrade",
+                        dest="release_upgrade",
+                        help=_("Whether a release upgrade is required"),
+                        type=str,
+                        metavar="APP")
+    parser.add_argument("-v",
+                        "--release-upgrade-version",
+                        dest="version",
+                        help=_("If a release upgrade is available, provide the version"),
+                        type=str,
+                        metavar="APP")
 
     options = parser.parse_args()
 
     reboot_required_path = Path("/var/run/reboot-required")
     reboot_required = reboot_required_path.exists()
 
-    if int(options.upgrades) > 0 or reboot_required:
+    if int(options.release_upgrade) == 0:
+        options.release_upgrade = True
+    else:
+        options.release_upgrade = False
+
+    if int(options.upgrades) > 0 or reboot_required or options.release_upgrade:
         main(sys.argv, int(options.upgrades), int(options.security_upgrades),
-             reboot_required, options.upg_path)
+             options.release_upgrade, options.version, reboot_required, options.upg_path)
