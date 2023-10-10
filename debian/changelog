@@ -1,3 +1,9 @@
+lubuntu-update-notifier (0.5.1~22.04.4) jammy; urgency=medium
+
+  * Add support for release upgrading, when all updates are applied (LP: #2038958).
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Tue, 10 Oct 2023 14:06:19 -0500
+
 lubuntu-update-notifier (0.5.1~22.04.3) jammy; urgency=medium
 
   * Don't try to pass a string to QTreeWidgetItem when it expects an
