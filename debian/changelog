@@ -1,12 +1,18 @@
-lubuntu-update-notifier (0.6.1~ppa22.04.1) UNRELEASED; urgency=medium
+lubuntu-update-notifier (0.6.1~ppa23.10.1) mantic; urgency=medium
+
+  [ Simon Quigley ]
+  * Backport to Mantic.
 
   [ FuRuYa7 ]
-  * Added Japanese translation "po/ja.po" file
+  * Added Japanese translation "po/ja.po" file.
 
   [ Roberalz ]
   * Update upg-apply.desktop.
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 29 Nov 2023 16:53:08 -0600
+  [ vaba ]
+  * Add an Estonian translation.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 29 Nov 2023 16:55:55 -0600
 
 lubuntu-update-notifier (0.6.0) mantic; urgency=medium
 
