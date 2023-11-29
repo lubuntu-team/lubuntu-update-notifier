@@ -4,10 +4,13 @@ lubuntu-update-notifier (0.6.1) UNRELEASED; urgency=medium
   * Rough, initial migration to systemd units.
 
   [ FuRuYa7 ]
-  * Added Japanese translation "po/ja.po" file
+  * Added Japanese translation "po/ja.po" file.
 
   [ Roberalz ]
   * Update upg-apply.desktop.
+
+  [ vaba ]
+  * Add an Estonian translation.
 
  -- Simon Quigley <tsimonq2@ubuntu.com>  Tue, 10 Oct 2023 14:14:56 -0500
 
