@@ -2,6 +2,7 @@ lubuntu-update-notifier (0.6.1) UNRELEASED; urgency=medium
 
   [ Simon Quigley ]
   * Rough, initial migration to systemd units.
+  * Update translation sources.
 
   [ FuRuYa7 ]
   * Added Japanese translation "po/ja.po" file.
