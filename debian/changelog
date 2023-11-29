@@ -1,3 +1,10 @@
+lubuntu-update-notifier (0.6.1~ppa22.04.1) UNRELEASED; urgency=medium
+
+  [ FuRuYa7 ]
+  * Added Japanese translation "po/ja.po" file
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 29 Nov 2023 16:53:08 -0600
+
 lubuntu-update-notifier (0.6.0) mantic; urgency=medium
 
   * Add support for release upgrading, when all updates are applied (LP: #2038958).
