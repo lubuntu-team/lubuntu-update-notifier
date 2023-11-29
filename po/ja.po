@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-12 13:43-0300\n"
+"POT-Creation-Date: 2023-11-29 17:43-0600\n"
 "PO-Revision-Date: 2022-03-15 01:45+0900\n"
 "Last-Translator: FuRuYa7\n"
 "Language-Team: \n"
@@ -12,114 +12,141 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: lubuntu-upgrader:129
+#: lubuntu-upgrader:132
 msgid "Updating cache..."
 msgstr "キャッシュを更新中..."
 
-#: lubuntu-upgrader:186 lubuntu-upgrader:189
+#: lubuntu-upgrader:138
+msgid "Repairing interrupted upgrade if necessary..."
+msgstr ""
+
+#: lubuntu-upgrader:195 lubuntu-upgrader:198
 msgid "Fetching"
 msgstr "読み込み中"
 
-#: lubuntu-upgrader:187 lubuntu-upgrader:189 lubuntu-upgrader:200
-#: lubuntu-upgrader:203
 # "Note that in Japanese, translating into 'of' reverses the meaning."
+#: lubuntu-upgrader:196 lubuntu-upgrader:198 lubuntu-upgrader:209
+#: lubuntu-upgrader:212
 msgid "of"
 msgstr " / "
 
-#: lubuntu-upgrader:199 lubuntu-upgrader:202
+#: lubuntu-upgrader:208 lubuntu-upgrader:211
 msgid "Downloaded"
 msgstr "ダウンロード済みです"
 
-#: lubuntu-upgrader:214 lubuntu-notifier.py:204
+#: lubuntu-upgrader:223 lubuntu-notifier.py:234
 msgid "Upgrade finished"
 msgstr "アップグレードが完了しました"
 
-#: lubuntu-upgrader:218 lubuntu-notifier.py:132 lubuntu-notifier.py:136
-#: lubuntu-notifier.py:174
+#: lubuntu-upgrader:227 lubuntu-notifier.py:197 lubuntu-notifier.py:201
+#: lubuntu-notifier.py:238
 msgid "Reboot required"
 msgstr "再起動が必要です"
 
-#: lubuntu-upgrader:222
+#: lubuntu-upgrader:231
 msgid "With some Errors"
 msgstr "いくつかのエラーがあります"
 
-#: lubuntu-upgrader:223
+#: lubuntu-upgrader:232
 msgid "Error Resume:"
 msgstr "エラーからの再開:"
 
-#: lubuntu-upgrader:274
+#: lubuntu-upgrader:283
 msgid "Update Cache Finished"
 msgstr "キャッシュの更新が完了しました"
 
-#: lubuntu-upgrader:369
+#: lubuntu-upgrader:404
+msgid "Repair Finished (if repair was needed)"
+msgstr ""
+
+#: lubuntu-upgrader:432
 msgid ""
 "Please run this software with administrative rights.To do so, run this "
 "program with lxqt-sudo."
-msgstr ""
-"管理者権限で実行してください。lxqt-sudo を使用して実行します。"
+msgstr "管理者権限で実行してください。lxqt-sudo を使用して実行します。"
 
-#: lubuntu-upgrader:391
+#: lubuntu-upgrader:454
 msgid "Update Cache Before Upgrade"
 msgstr "アップグレード前にキャッシュを更新します"
 
-#: lubuntu-upgrader:396
+#: lubuntu-upgrader:459
 msgid "Full upgrade same as dist-upgrade"
 msgstr "dist-upgrade と同じフルアップグレード"
 
-#: lubuntu-notifier.py:54
+#: lubuntu-notifier.py:76
 #, python-format
 msgid "Error: Opening the cache (%s)"
 msgstr "エラー: キャッシュ (%s) を開いています"
 
-#: lubuntu-notifier.py:71
+#: lubuntu-notifier.py:95 lubuntu-notifier.py:101
 msgid "Affected Packages"
 msgstr "影響を受けるパッケージ"
 
-#: lubuntu-notifier.py:72
+#: lubuntu-notifier.py:96
 msgid "Security"
 msgstr "セキュリティ"
 
-#: lubuntu-notifier.py:102
+#: lubuntu-notifier.py:141
 msgid "There are upgrades available. Do you want to do a system upgrade?"
-msgstr "利用可能なアップグレードがあります。システムのアップグレードを行いますか？"
+msgstr ""
+"利用可能なアップグレードがあります。システムのアップグレードを行いますか？"
 
-#: lubuntu-notifier.py:105
+#: lubuntu-notifier.py:144
 msgid "This will mean packages could be upgraded, installed or removed."
 msgstr "パッケージがアップグレード、インストール、または削除されます。"
 
-#: lubuntu-notifier.py:125
+#: lubuntu-notifier.py:149
 msgid " is a security upgrade."
 msgstr " 個がセキュリティのアップグレードです。"
 
-#: lubuntu-notifier.py:127
+#: lubuntu-notifier.py:151
 msgid " are security upgrades."
 msgstr " 個がセキュリティのアップグレードです。"
 
-#: lubuntu-notifier.py:130
+#: lubuntu-notifier.py:154
 msgid "Remove"
 msgstr "削除"
 
-#: lubuntu-notifier.py:137
+#: lubuntu-notifier.py:161
 msgid "Install"
 msgstr "インストール"
 
-#: lubuntu-notifier.py:152
+#: lubuntu-notifier.py:176
 msgid "Upgrade"
 msgstr "アップグレード"
 
-#: lubuntu-notifier.py:155
+#: lubuntu-notifier.py:222
 msgid "Upgrading..."
 msgstr "アップグレード中..."
 
-#: lubuntu-notifier.py:247
+#: lubuntu-notifier.py:276
+msgid "A new version of Lubuntu"
+msgstr ""
+
+#: lubuntu-notifier.py:277
+msgid "is available. Would you like to install it?"
+msgstr ""
+
+#: lubuntu-notifier.py:279
+msgid "A new version of Lubuntu is available. Would you like to install it?"
+msgstr ""
+
+#: lubuntu-notifier.py:315
 msgid "Define software/app to open for upgrade"
 msgstr "アップグレードで開くソフトウェア/アプリを定義します"
 
-#: lubuntu-notifier.py:252
+#: lubuntu-notifier.py:320
 msgid "How many upgrades are available"
 msgstr "利用可能なアップグレードの数"
 
-#: lubuntu-notifier.py:257
+#: lubuntu-notifier.py:325
 msgid "How many security upgrades are available"
 msgstr "利用可能なセキュリティアップグレードの数"
 
+#: lubuntu-notifier.py:330
+msgid "Whether a release upgrade is required"
+msgstr ""
+
+#: lubuntu-notifier.py:336
+msgid "If a release upgrade is available, provide the version"
+msgstr ""

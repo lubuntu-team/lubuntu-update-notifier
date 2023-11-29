@@ -1,2 +1,7 @@
-xgettext lubuntu-upgrader lubuntu-notifier.py --language=Python
-mv messages.po po/lubuntu-update-notifier.pot
+#!/bin/bash
+
+xgettext lubuntu-upgrader lubuntu-notifier.py --language=Python -o po/lubuntu-update-notifier.pot
+
+for po_file in po/*.po; do
+    msgmerge -U "$po_file" po/lubuntu-update-notifier.pot
+done

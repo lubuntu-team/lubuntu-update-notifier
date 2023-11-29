@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-12 13:43-0300\n"
+"POT-Creation-Date: 2023-11-29 17:43-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,94 +17,139 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: lubuntu-upgrader:129
+#: lubuntu-upgrader:132
 msgid "Updating cache..."
 msgstr ""
 
-#: lubuntu-upgrader:186 lubuntu-upgrader:189
+#: lubuntu-upgrader:138
+msgid "Repairing interrupted upgrade if necessary..."
+msgstr ""
+
+#: lubuntu-upgrader:195 lubuntu-upgrader:198
 msgid "Fetching"
 msgstr ""
 
-#: lubuntu-upgrader:187 lubuntu-upgrader:189 lubuntu-upgrader:200
-#: lubuntu-upgrader:203
+#: lubuntu-upgrader:196 lubuntu-upgrader:198 lubuntu-upgrader:209
+#: lubuntu-upgrader:212
 msgid "of"
 msgstr ""
 
-#: lubuntu-upgrader:199 lubuntu-upgrader:202
+#: lubuntu-upgrader:208 lubuntu-upgrader:211
 msgid "Downloaded"
 msgstr ""
 
-#: lubuntu-upgrader:214 lubuntu-notifier.py:170
+#: lubuntu-upgrader:223 lubuntu-notifier.py:234
 msgid "Upgrade finished"
 msgstr ""
 
-#: lubuntu-upgrader:218 lubuntu-notifier.py:132 lubuntu-notifier.py:136
-#: lubuntu-notifier.py:174
+#: lubuntu-upgrader:227 lubuntu-notifier.py:197 lubuntu-notifier.py:201
+#: lubuntu-notifier.py:238
 msgid "Reboot required"
 msgstr ""
 
-#: lubuntu-upgrader:222
+#: lubuntu-upgrader:231
 msgid "With some Errors"
 msgstr ""
 
-#: lubuntu-upgrader:223
+#: lubuntu-upgrader:232
 msgid "Error Resume:"
 msgstr ""
 
-#: lubuntu-upgrader:274
+#: lubuntu-upgrader:283
 msgid "Update Cache Finished"
 msgstr ""
 
-#: lubuntu-upgrader:369
+#: lubuntu-upgrader:404
+msgid "Repair Finished (if repair was needed)"
+msgstr ""
+
+#: lubuntu-upgrader:432
 msgid ""
 "Please run this software with administrative rights.To do so, run this "
 "program with lxqt-sudo."
 msgstr ""
 
-#: lubuntu-upgrader:391
+#: lubuntu-upgrader:454
 msgid "Update Cache Before Upgrade"
 msgstr ""
 
-#: lubuntu-upgrader:396
+#: lubuntu-upgrader:459
 msgid "Full upgrade same as dist-upgrade"
 msgstr ""
 
-#: lubuntu-notifier.py:64
+#: lubuntu-notifier.py:76
+#, python-format
+msgid "Error: Opening the cache (%s)"
+msgstr ""
+
+#: lubuntu-notifier.py:95 lubuntu-notifier.py:101
 msgid "Affected Packages"
 msgstr ""
 
-#: lubuntu-notifier.py:102
+#: lubuntu-notifier.py:96
+msgid "Security"
+msgstr ""
+
+#: lubuntu-notifier.py:141
 msgid "There are upgrades available. Do you want to do a system upgrade?"
 msgstr ""
 
-#: lubuntu-notifier.py:105
+#: lubuntu-notifier.py:144
 msgid "This will mean packages could be upgraded, installed or removed."
 msgstr ""
 
-#: lubuntu-notifier.py:109
+#: lubuntu-notifier.py:149
+msgid " is a security upgrade."
+msgstr ""
+
+#: lubuntu-notifier.py:151
+msgid " are security upgrades."
+msgstr ""
+
+#: lubuntu-notifier.py:154
 msgid "Remove"
 msgstr ""
 
-#: lubuntu-notifier.py:116
+#: lubuntu-notifier.py:161
 msgid "Install"
 msgstr ""
 
-#: lubuntu-notifier.py:123
+#: lubuntu-notifier.py:176
 msgid "Upgrade"
 msgstr ""
 
-#: lubuntu-notifier.py:155
+#: lubuntu-notifier.py:222
 msgid "Upgrading..."
 msgstr ""
 
-#: lubuntu-notifier.py:212
+#: lubuntu-notifier.py:276
+msgid "A new version of Lubuntu"
+msgstr ""
+
+#: lubuntu-notifier.py:277
+msgid "is available. Would you like to install it?"
+msgstr ""
+
+#: lubuntu-notifier.py:279
+msgid "A new version of Lubuntu is available. Would you like to install it?"
+msgstr ""
+
+#: lubuntu-notifier.py:315
 msgid "Define software/app to open for upgrade"
 msgstr ""
 
-#: lubuntu-notifier.py:217
+#: lubuntu-notifier.py:320
 msgid "How many upgrades are available"
 msgstr ""
 
-#: lubuntu-notifier.py:222
+#: lubuntu-notifier.py:325
 msgid "How many security upgrades are available"
+msgstr ""
+
+#: lubuntu-notifier.py:330
+msgid "Whether a release upgrade is required"
+msgstr ""
+
+#: lubuntu-notifier.py:336
+msgid "If a release upgrade is available, provide the version"
 msgstr ""
