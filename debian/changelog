@@ -9,6 +9,8 @@ lubuntu-update-notifier (0.6.1~ppa23.10.2) mantic; urgency=medium
 
   [ Roberalz ]
   * Update upg-apply.desktop.
+  * Update Spanish translations.
+  * Add Basque translations.
 
   [ vaba ]
   * Add an Estonian translation.
