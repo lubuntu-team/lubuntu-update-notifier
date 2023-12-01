@@ -1,4 +1,4 @@
-lubuntu-update-notifier (0.6.1~ppa22.04.2) jammy; urgency=medium
+lubuntu-update-notifier (0.6.1~ppa22.04.3) jammy; urgency=medium
 
   [ Simon Quigley ]
   * Backport to Jammy.
@@ -15,7 +15,7 @@ lubuntu-update-notifier (0.6.1~ppa22.04.2) jammy; urgency=medium
   [ vaba ]
   * Add an Estonian translation.
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 29 Nov 2023 17:45:55 -0600
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Fri, 01 Dec 2023 14:14:49 -0600
 
 lubuntu-update-notifier (0.6.0) mantic; urgency=medium
 
