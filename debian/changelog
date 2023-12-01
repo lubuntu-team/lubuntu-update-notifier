@@ -1,4 +1,4 @@
-lubuntu-update-notifier (0.6.1~ppa23.10.3) mantic; urgency=medium
+lubuntu-update-notifier (0.6.1~ppa23.10.4) mantic; urgency=medium
 
   [ Simon Quigley ]
   * Backport to Mantic.
@@ -11,6 +11,7 @@ lubuntu-update-notifier (0.6.1~ppa23.10.3) mantic; urgency=medium
   * Update upg-apply.desktop.
   * Update Spanish translations.
   * Add Basque translations.
+  * Add Galician translations.
 
   [ vaba ]
   * Add an Estonian translation.
