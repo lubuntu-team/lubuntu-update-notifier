@@ -1,4 +1,4 @@
-lubuntu-update-notifier (0.6.1~ppa22.04.3) jammy; urgency=medium
+lubuntu-update-notifier (0.6.1~ppa22.04.4) jammy; urgency=medium
 
   [ Simon Quigley ]
   * Backport to Jammy.
@@ -11,6 +11,7 @@ lubuntu-update-notifier (0.6.1~ppa22.04.3) jammy; urgency=medium
   * Update upg-apply.desktop.
   * Update Spanish translations.
   * Add Basque translations.
+  * Add Galician translations.
 
   [ vaba ]
   * Add an Estonian translation.
