@@ -1,4 +1,4 @@
-lubuntu-update-notifier (0.6.1~ppa23.10.2) mantic; urgency=medium
+lubuntu-update-notifier (0.6.1~ppa23.10.3) mantic; urgency=medium
 
   [ Simon Quigley ]
   * Backport to Mantic.
@@ -15,7 +15,7 @@ lubuntu-update-notifier (0.6.1~ppa23.10.2) mantic; urgency=medium
   [ vaba ]
   * Add an Estonian translation.
 
- -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 29 Nov 2023 17:48:23 -0600
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Fri, 01 Dec 2023 14:14:49 -0600
 
 lubuntu-update-notifier (0.6.0) mantic; urgency=medium
 
